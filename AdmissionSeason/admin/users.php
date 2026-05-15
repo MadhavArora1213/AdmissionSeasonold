@@ -13,6 +13,7 @@ $user_id = $_GET['id'] ?? null;
     <title>User Management | EduSearch Admin</title>
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .user-tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
         .u-tab { padding: 10px 20px; cursor: pointer; color: var(--text-secondary); border-bottom: 2px solid transparent; }
@@ -50,7 +51,7 @@ $user_id = $_GET['id'] ?? null;
                 </div>
 
                 <!-- Screen 5.1.1 — Student User Table -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
                         <div style="display: flex; gap: 10px;">
                             <div class="header-search" style="width: 300px;">
@@ -73,23 +74,43 @@ $user_id = $_GET['id'] ?? null;
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div style="font-weight: 700;">Vikram Aditya</div>
-                                    <div style="font-size: 0.65rem; color: var(--text-secondary);">ID: #STU_8219</div>
-                                </td>
-                                <td>
-                                    <div class="masked-field">vik***@gmail.com</div>
-                                    <div class="masked-field">XXXXXX1292</div>
-                                </td>
-                                <td><span style="font-size: 0.8rem;"><i class="fab fa-google"></i> OAuth</span></td>
-                                <td>
-                                    <div style="font-size: 0.8rem; font-weight: 700;">12 Leads / 4 Reviews</div>
-                                    <div style="font-size: 0.7rem; color: var(--text-secondary);">Active 5m ago</div>
-                                </td>
-                                <td><span class="status-badge status-approved">Active</span></td>
-                                <td><a href="?id=8219" class="action-btn"><i class="fas fa-id-badge"></i> View Detail</a></td>
-                            </tr>
+                            <?php
+                            $role_filter = ($view === 'admins') ? 'SUPER_ADMIN' : 'STUDENT';
+                            $stmt_users = $pdo->prepare("SELECT * FROM users WHERE role = ? ORDER BY created_at DESC LIMIT 50");
+                            $stmt_users->execute([$role_filter]);
+                            $user_list = $stmt_users->fetchAll();
+                            
+                            if (empty($user_list)): ?>
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                        No users found.
+                                    </td>
+                                </tr>
+                            <?php else:
+                                foreach ($user_list as $u): 
+                                    $email_masked = substr($u['email'], 0, 3) . '***@' . substr(strstr($u['email'], '@'), 1);
+                                    $status_class = ($u['role'] === 'BANNED') ? 'status-rejected' : 'status-approved';
+                                    $status_text = ($u['role'] === 'BANNED') ? 'Banned' : 'Active';
+                                ?>
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 700;"><?php echo htmlspecialchars($u['name']); ?></div>
+                                        <div style="font-size: 0.65rem; color: var(--text-secondary);">Role: <?php echo htmlspecialchars($u['role']); ?></div>
+                                    </td>
+                                    <td>
+                                        <div class="masked-field"><?php echo htmlspecialchars($email_masked); ?></div>
+                                    </td>
+                                    <td><span style="font-size: 0.8rem;"><i class="fas fa-envelope"></i> Email/Password</span></td>
+                                    <td>
+                                        <div style="font-size: 0.7rem; color: var(--text-secondary);">
+                                            Joined: <?php echo date('d M Y', strtotime($u['created_at'])); ?>
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge <?php echo $status_class; ?>"><?php echo $status_text; ?></span></td>
+                                    <td><a href="?id=<?php echo $u['id']; ?>" class="action-btn"><i class="fas fa-id-badge"></i> View Detail</a></td>
+                                </tr>
+                                <?php endforeach; 
+                            endif; ?>
                         </tbody>
                     </table>
 
@@ -115,7 +136,7 @@ $user_id = $_GET['id'] ?? null;
                                 <td>₹ 2,500 / hr</td>
                                 <td><i class="fas fa-star" style="color: #f59e0b;"></i> 4.9 (142 reviews)</td>
                                 <td><span class="status-badge status-approved">Verified</span></td>
-                                <td><button class="action-btn"><i class="fas fa-calendar-alt"></i> Bookings</button></td>
+                                <td><button class="action-btn" onclick="handleUserAction('view_bookings', 'Dr. Shalini Sharma')"><i class="fas fa-calendar-alt"></i> Bookings</button></td>
                             </tr>
                             <tr>
                                 <td>
@@ -126,7 +147,7 @@ $user_id = $_GET['id'] ?? null;
                                 <td>₹ 1,500 / hr</td>
                                 <td><i class="fas fa-star" style="color: #f59e0b;"></i> 4.7 (82 reviews)</td>
                                 <td><span class="status-badge status-approved">Verified</span></td>
-                                <td><button class="action-btn"><i class="fas fa-calendar-alt"></i></button></td>
+                                <td><button class="action-btn" onclick="handleUserAction('view_bookings', 'Ankit Mehta')"><i class="fas fa-calendar-alt"></i></button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -144,13 +165,13 @@ $user_id = $_GET['id'] ?? null;
                         </div>
                     </div>
                     <div style="display: flex; gap: 10px;">
-                        <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--danger); color: var(--danger);">Suspend Account</button>
-                        <button class="btn btn-primary">Reset Credentials</button>
+                        <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--danger); color: var(--danger);" onclick="handleUserAction('suspend', 'Vikram Aditya')">Suspend Account</button>
+                        <button class="btn btn-primary" onclick="handleUserAction('reset', 'Vikram Aditya')">Reset Credentials</button>
                     </div>
                 </div>
 
                 <div class="dashboard-grid">
-                    <div class="widget w-third">
+                    <div class="widget w-half glass-card">
                         <h3 class="widget-title">Personal Info (Admin View)</h3>
                         <div style="margin-top: 1.5rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
                             <div style="margin-bottom: 1rem;">
@@ -184,7 +205,7 @@ $user_id = $_GET['id'] ?? null;
                         </div>
                     </div>
 
-                    <div class="widget w-two-thirds">
+                    <div class="widget w-half glass-card">
                         <h3 class="widget-title">Full Platform Activity Log</h3>
                         <div style="margin-top: 1.5rem; max-height: 500px; overflow-y: auto; padding-right: 10px;">
                             <table class="data-table">
@@ -221,5 +242,39 @@ $user_id = $_GET['id'] ?? null;
             </div>
         </main>
     </div>
+    <script>
+        async function handleUserAction(action, target) {
+            Swal.fire({
+                title: 'User Management',
+                text: 'Updating account status in the ledger...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            try {
+                const response = await fetch('admin_api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target, module: 'users' })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Updated',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: result.message });
+                }
+            } catch (error) {
+                console.error("User API Error:", error);
+                Swal.fire({ icon: 'error', title: 'Connection Failure', text: 'Administrative API is currently unreachable.' });
+            }
+        }
+    </script>
 </body>
 </html>

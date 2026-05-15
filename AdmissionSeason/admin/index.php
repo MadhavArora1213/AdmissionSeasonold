@@ -21,6 +21,7 @@ $dau = 1240;
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="admin-container">
@@ -67,54 +68,56 @@ $dau = 1240;
                                 <label style="font-size: 0.8rem; color: var(--text-secondary);">Notify when VPS RAM % ></label>
                                 <input type="number" value="85" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; padding: 8px; border-radius: 4px; margin-top: 5px;">
                             </div>
-                            <button class="btn btn-primary" style="width: 100%;" onclick="document.getElementById('threshold-modal').style.display='none'">Save Config</button>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="handleDashboardAction('save_config', 'thresholds'); document.getElementById('threshold-modal').style.display='none'">Save Config</button>
                         </div>
                     </div>
                 </div>
                 
                 <div class="kpi-strip" id="kpi-strip">
                     <div class="kpi-card" data-kpi="dau">
-                        <div class="kpi-label">DAU (Students) <i class="fas fa-users text-primary"></i></div>
+                        <div class="kpi-label">
+                            DAU (Students) 
+                            <span style="background: rgba(99, 102, 241, 0.1); padding: 5px; border-radius: 6px;"><i class="fas fa-users" style="color: var(--accent-primary);"></i></span>
+                        </div>
                         <div class="kpi-value"><?php echo number_format($dau); ?></div>
                         <div class="kpi-trend trend-up"><i class="fas fa-arrow-up"></i> 12% vs yesterday</div>
                     </div>
                     <div class="kpi-card" data-kpi="leads">
-                        <div class="kpi-label">Leads Today <i class="fas fa-bullseye text-primary"></i></div>
+                        <div class="kpi-label">
+                            Leads Today 
+                            <span style="background: rgba(168, 85, 247, 0.1); padding: 5px; border-radius: 6px;"><i class="fas fa-bullseye" style="color: var(--accent-secondary);"></i></span>
+                        </div>
                         <div class="kpi-value"><?php echo number_format($leads_today); ?></div>
                         <div class="kpi-trend trend-up"><i class="fas fa-arrow-up"></i> 8% vs yesterday</div>
                     </div>
                     <div class="kpi-card" data-kpi="reviews">
-                        <div class="kpi-label">Pending Reviews <i class="fas fa-star text-primary"></i></div>
+                        <div class="kpi-label">
+                            Pending Reviews 
+                            <span style="background: rgba(245, 158, 11, 0.1); padding: 5px; border-radius: 6px;"><i class="fas fa-star" style="color: var(--warning);"></i></span>
+                        </div>
                         <div class="kpi-value"><?php echo number_format($pending_reviews); ?></div>
                         <div class="kpi-trend <?php echo $pending_reviews > 10 ? 'trend-down' : 'trend-up'; ?>">
                             <?php echo $pending_reviews > 20 ? 'Action required' : 'Manageable'; ?>
                         </div>
                     </div>
-                    <div class="kpi-card" data-kpi="clients">
-                        <div class="kpi-label">Active Clients <i class="fas fa-university text-primary"></i></div>
-                        <div class="kpi-value"><?php echo number_format($active_colleges); ?></div>
-                        <div class="kpi-trend trend-up">Growing steadily</div>
-                    </div>
                     <div class="kpi-card" data-kpi="revenue">
-                        <div class="kpi-label">Revenue MTD <i class="fas fa-rupee-sign text-primary"></i></div>
+                        <div class="kpi-label">
+                            Revenue MTD 
+                            <span style="background: rgba(16, 185, 129, 0.1); padding: 5px; border-radius: 6px;"><i class="fas fa-rupee-sign" style="color: var(--success);"></i></span>
+                        </div>
                         <div class="kpi-value">₹<?php echo number_format($revenue_mtd); ?></div>
                         <div class="kpi-trend trend-up"><i class="fas fa-arrow-up"></i> 24% vs last month</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">VPS Health <i class="fas fa-server text-primary"></i></div>
-                        <div class="kpi-value" style="color: var(--success);">NORMAL</div>
-                        <div class="kpi-trend">All systems operational</div>
                     </div>
                 </div>
 
                 <!-- Quick Actions Bar -->
-                <div class="quick-actions-bar" style="display: flex; gap: 1rem; margin-bottom: 2rem; background: rgba(30, 41, 59, 0.4); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                <div class="quick-actions-bar glass-card" style="display: flex; gap: 1rem; margin-bottom: 2rem; padding: 1.2rem; border-radius: 16px;">
                     <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); align-self: center; margin-right: 10px; text-transform: uppercase;">Quick Actions:</span>
-                    <a href="colleges.php?action=add" class="btn" style="background: rgba(255,255,255,0.05); font-size: 0.8rem;"><i class="fas fa-plus"></i> Add College</a>
-                    <a href="reviews.php" class="btn" style="background: rgba(255,255,255,0.05); font-size: 0.8rem;"><i class="fas fa-check"></i> Approve Reviews (<?php echo $pending_reviews; ?>)</a>
-                    <a href="billing.php?action=invoices" class="btn" style="background: rgba(255,255,255,0.05); font-size: 0.8rem;"><i class="fas fa-file-invoice"></i> Generate Invoices</a>
-                    <a href="leads.php?filter=disputed" class="btn" style="background: rgba(255,255,255,0.05); font-size: 0.8rem;"><i class="fas fa-exclamation-triangle"></i> View Disputes</a>
-                    <button class="btn" style="background: rgba(255,255,255,0.05); font-size: 0.8rem;"><i class="fas fa-search"></i> Trigger Re-index</button>
+                    <a href="colleges.php?action=add" class="btn btn-secondary" style="font-size: 0.8rem;"><i class="fas fa-plus"></i> Add College</a>
+                    <a href="reviews.php" class="btn btn-secondary" style="font-size: 0.8rem;"><i class="fas fa-check"></i> Approve Reviews (<?php echo $pending_reviews; ?>)</a>
+                    <a href="billing.php?action=invoices" class="btn btn-secondary" style="font-size: 0.8rem;"><i class="fas fa-file-invoice"></i> Generate Invoices</a>
+                    <a href="leads.php?filter=disputed" class="btn btn-secondary" style="font-size: 0.8rem;"><i class="fas fa-exclamation-triangle"></i> View Disputes</a>
+                    <button class="btn btn-secondary" style="font-size: 0.8rem;" onclick="handleDashboardAction('reindex', 'MeiliSearch')"><i class="fas fa-search"></i> Re-index</button>
                 </div>
                 
                 <div class="dashboard-grid" id="dashboard-grid">
@@ -403,8 +406,18 @@ $dau = 1240;
         document.querySelectorAll('.export-csv').forEach(btn => {
             btn.addEventListener('click', function() {
                 const widgetName = this.closest('.widget').getAttribute('data-widget');
-                alert(`Exporting CSV data for: ${widgetName}...`);
-                // In real app: window.location.href = `/api/export?widget=${widgetName}`;
+                Swal.fire({
+                    title: 'Preparing Export',
+                    text: 'Your CSV file is being generated...',
+                    icon: 'info',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    background: 'rgba(15, 23, 42, 0.95)',
+                    color: '#fff'
+                });
+                setTimeout(() => {
+                    window.location.href = 'export_csv.php?widget=' + widgetName;
+                }, 1000);
             });
         });
 
@@ -422,6 +435,46 @@ $dau = 1240;
                 }
             });
         });
+
+        async function handleDashboardAction(action, target) {
+            let config = {
+                title: 'Action Triggered',
+                text: '',
+                icon: 'info',
+                showConfirmButton: false,
+                timer: 2000,
+                background: 'rgba(15, 23, 42, 0.95)',
+                color: '#fff',
+                backdrop: `rgba(0,0,0,0.4) blur(4px)`
+            };
+
+            if (action === 'reindex') {
+                config.text = 'Initiating full re-index of ' + target + '. This may take a few minutes...';
+                config.icon = 'success';
+            } else if (action === 'save_config') {
+                config.text = 'Dashboard configuration and alert thresholds saved.';
+                config.icon = 'success';
+            }
+            
+            Swal.fire(config);
+
+            // Backend Integration
+            /*
+            try {
+                const response = await fetch('/api/admin/dashboard', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    Swal.fire({ icon: 'success', title: 'Success', text: result.message, timer: 1500 });
+                }
+            } catch (error) {
+                console.error("Backend Error:", error);
+            }
+            */
+        }
     </script>
 </body>
 </html>

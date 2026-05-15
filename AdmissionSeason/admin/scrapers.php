@@ -12,6 +12,7 @@ $view = $_GET['view'] ?? 'jobs';
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .scr-tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
         .scr-tab { padding: 10px 20px; cursor: pointer; color: var(--text-secondary); border-bottom: 2px solid transparent; }
@@ -52,10 +53,10 @@ $view = $_GET['view'] ?? 'jobs';
 
                 <?php if ($view == 'jobs'): ?>
                 <!-- Screen 6.1.1 — Scraper Job Manager -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">Active Data Scrapers</h3>
-                        <button class="btn btn-primary" style="font-size: 0.75rem;">+ Create New Scraper</button>
+                        <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleScraperAction('create', 'new_scraper')">+ Create New Scraper</button>
                     </div>
                     <table class="data-table">
                         <thead>
@@ -82,9 +83,9 @@ $view = $_GET['view'] ?? 'jobs';
                                 <td><span style="font-weight: 700; color: var(--success);">98.2%</span></td>
                                 <td>
                                     <div style="display: flex; gap: 10px;">
-                                        <button class="action-btn" title="Run Now"><i class="fas fa-play"></i></button>
-                                        <button class="action-btn" title="Pause"><i class="fas fa-pause"></i></button>
-                                        <button class="action-btn"><i class="fas fa-cog"></i></button>
+                                        <button class="action-btn" title="Run Now" onclick="handleScraperAction('run_scraper', 'NIRF Rank Scraper')"><i class="fas fa-play"></i></button>
+                                        <button class="action-btn" title="Pause" onclick="handleScraperAction('pause_scraper', 'NIRF Rank Scraper')"><i class="fas fa-pause"></i></button>
+                                        <button class="action-btn" onclick="handleScraperAction('config', 'NIRF Rank Scraper')"><i class="fas fa-cog"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -100,9 +101,9 @@ $view = $_GET['view'] ?? 'jobs';
                                 <td><span style="font-weight: 700; color: var(--warning);">74.1%</span></td>
                                 <td>
                                     <div style="display: flex; gap: 10px;">
-                                        <button class="action-btn"><i class="fas fa-play"></i></button>
-                                        <button class="action-btn"><i class="fas fa-pause"></i></button>
-                                        <button class="action-btn"><i class="fas fa-cog"></i></button>
+                                        <button class="action-btn" onclick="handleScraperAction('run_scraper', 'AmbitionBox')"><i class="fas fa-play"></i></button>
+                                        <button class="action-btn" onclick="handleScraperAction('pause_scraper', 'AmbitionBox')"><i class="fas fa-pause"></i></button>
+                                        <button class="action-btn" onclick="handleScraperAction('config', 'AmbitionBox')"><i class="fas fa-cog"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -112,11 +113,11 @@ $view = $_GET['view'] ?? 'jobs';
 
                 <?php elseif ($view == 'diff'): ?>
                 <!-- Screen 6.1.2 — Data Diff Viewer (Scraper Output) -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">Pending Data Diff Queue</h3>
                         <div style="display: flex; gap: 10px;">
-                            <button class="btn btn-primary" style="font-size: 0.75rem;">Bulk Approve High Confidence</button>
+                            <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleScraperAction('bulk_approve', 'high_confidence')">Bulk Approve High Confidence</button>
                         </div>
                     </div>
                     
@@ -135,9 +136,9 @@ $view = $_GET['view'] ?? 'jobs';
                         </div>
                         <div class="diff-old">#25</div>
                         <div class="diff-new">#21</div>
-                        <td><span class="status-badge status-approved">High (NIRF.org)</span></td>
-                        <td><button class="btn btn-primary" style="font-size: 0.7rem; padding: 5px 10px;">Apply Change</button></td>
-                    </tr>
+                        <div><span class="status-badge status-approved">High (NIRF.org)</span></div>
+                        <div><button class="btn btn-primary" style="font-size: 0.7rem; padding: 5px 10px;" onclick="handleScraperAction('apply_diff', 'BITS Pilani NIRF')">Apply Change</button></div>
+                    </div>
                     <div class="diff-row">
                         <div>
                             <div style="font-weight: 700;">LPU Jalandhar</div>
@@ -145,14 +146,14 @@ $view = $_GET['view'] ?? 'jobs';
                         </div>
                         <div class="diff-old">₹ 1,15,000</div>
                         <div class="diff-new">₹ 1,28,000</div>
-                        <td><span class="status-badge" style="background: rgba(168, 85, 247, 0.1); color: var(--accent-secondary);">Medium (Official Site)</span></td>
-                        <td><button class="btn btn-primary" style="font-size: 0.7rem; padding: 5px 10px;">Apply Change</button></td>
-                    </tr>
+                        <div><span class="status-badge" style="background: rgba(168, 85, 247, 0.1); color: var(--accent-secondary);">Medium (Official Site)</span></div>
+                        <div><button class="btn btn-primary" style="font-size: 0.7rem; padding: 5px 10px;" onclick="handleScraperAction('apply_diff', 'LPU Hostel')">Apply Change</button></div>
+                    </div>
                 </div>
 
                 <?php elseif ($view == 'conflicts'): ?>
                 <!-- Screen 6.1.3 — Conflict Resolver -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">Scraper vs College Conflicts</h3>
                         <span class="status-badge status-rejected">4 High Impact Conflicts</span>
@@ -182,9 +183,9 @@ $view = $_GET['view'] ?? 'jobs';
                             </div>
                         </div>
                         <div style="display: flex; gap: 10px;">
-                            <button class="btn btn-primary" style="font-size: 0.8rem;">Use Scraped Value (A++)</button>
-                            <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; font-size: 0.8rem;">Use College Value (A)</button>
-                            <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; font-size: 0.8rem;">Mark Under Verification</button>
+                            <button class="btn btn-primary" style="font-size: 0.8rem;" onclick="handleScraperAction('resolve', 'scraped')">Use Scraped Value (A++)</button>
+                            <button class="btn btn-secondary" style="font-size: 0.8rem;" onclick="handleScraperAction('resolve', 'college')">Use College Value (A)</button>
+                            <button class="btn btn-secondary" style="font-size: 0.8rem;" onclick="handleScraperAction('resolve', 'pending')">Mark Under Verification</button>
                         </div>
                     </div>
                 </div>
@@ -192,22 +193,22 @@ $view = $_GET['view'] ?? 'jobs';
                 <?php elseif ($view == 'errors'): ?>
                 <!-- Screen 6.1.4 — Scraper Error Log -->
                 <div class="dashboard-grid">
-                    <div class="widget w-two-thirds">
+                    <div class="widget w-two-thirds glass-card">
                         <h3 class="widget-title">Error Trend (Last 30 Days)</h3>
                         <canvas id="errorTrendChart" height="150"></canvas>
                     </div>
-                    <div class="widget w-third">
+                    <div class="widget w-third glass-card">
                         <h3 class="widget-title">Anti-Block Status</h3>
                         <div style="margin-top: 1rem;">
                             <div style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 10px;">
                                 <div style="font-size: 0.7rem; color: var(--text-secondary);">IP Blocked By</div>
                                 <div style="font-weight: 700;">NIRF Portal (182.XX.XX.XX)</div>
-                                <button class="btn" style="font-size: 0.6rem; background: var(--accent-primary); margin-top: 5px;">Rotate Proxy</button>
+                                <button class="btn btn-primary" style="font-size: 0.6rem; margin-top: 5px;" onclick="handleScraperAction('rotate_proxy', 'NIRF')">Rotate Proxy</button>
                             </div>
                             <div style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">
                                 <div style="font-size: 0.7rem; color: var(--text-secondary);">HTTP 429 (Rate Limited)</div>
                                 <div style="font-weight: 700;">3 Sources Detected</div>
-                                <button class="btn" style="font-size: 0.6rem; background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; margin-top: 5px;">Adjust Frequency</button>
+                                <button class="btn btn-secondary" style="font-size: 0.6rem; margin-top: 5px;" onclick="handleScraperAction('adjust_freq', 'Rate Limited Sources')">Adjust Frequency</button>
                             </div>
                         </div>
                     </div>
@@ -217,29 +218,38 @@ $view = $_GET['view'] ?? 'jobs';
             </div>
         </main>
     </div>
-
     <script>
-        if (document.getElementById('errorTrendChart')) {
-            const ctx = document.getElementById('errorTrendChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: Array.from({length: 30}, (_, i) => i + 1),
-                    datasets: [{
-                        label: 'Error Rate %',
-                        data: Array.from({length: 30}, () => Math.random() * 5),
-                        borderColor: '#ef4444',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, max: 10 } }
-                }
+        async function handleScraperAction(action, target) {
+            Swal.fire({
+                title: 'Scraper Control',
+                text: 'Interfacing with crawling agents...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
             });
+
+            try {
+                const response = await fetch('admin_api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target, module: 'scrapers' })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: result.message });
+                }
+            } catch (error) {
+                console.error("Scraper API Error:", error);
+                Swal.fire({ icon: 'error', title: 'Connection Failure', text: 'Administrative API is currently unreachable.' });
+            }
         }
     </script>
 </body>

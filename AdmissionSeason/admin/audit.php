@@ -11,6 +11,7 @@ $view = $_GET['view'] ?? 'full';
     <title>Admin Audit Log | EduSearch Admin</title>
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .aud-tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
         .aud-tab { padding: 10px 20px; cursor: pointer; color: var(--text-secondary); border-bottom: 2px solid transparent; }
@@ -47,19 +48,19 @@ $view = $_GET['view'] ?? 'full';
 
                 <?php if ($view == 'full'): ?>
                 <!-- Screen 12.1.1 — Audit Log Table -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <div style="display: flex; gap: 10px;">
-                            <select class="btn" style="background: var(--sidebar-bg); color: white; border: 1px solid var(--border-color); font-size: 0.8rem;">
+                            <select class="btn btn-secondary" style="font-size: 0.8rem;">
                                 <option>All Actions</option>
                                 <option>College Updates</option>
                                 <option>User Deletions</option>
                                 <option>Lead Disputes</option>
                                 <option>System Config</option>
                             </select>
-                            <input type="date" class="btn" style="background: var(--sidebar-bg); color: white; border: 1px solid var(--border-color); font-size: 0.8rem;">
+                            <input type="date" class="btn btn-secondary" style="font-size: 0.8rem;">
                         </div>
-                        <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; font-size: 0.75rem;"><i class="fas fa-file-csv"></i> Export for Audit</button>
+                        <button class="btn btn-secondary" style="font-size: 0.75rem;" onclick="handleAuditAction('export_csv', 'full')"><i class="fas fa-file-csv"></i> Export for Audit</button>
                     </div>
 
                     <table class="data-table">
@@ -119,7 +120,7 @@ $view = $_GET['view'] ?? 'full';
 
                 <?php elseif ($view == 'access'): ?>
                 <!-- Screen 12.1.2 — Admin Access Change Log -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="rbac-alert">
                         <i class="fas fa-shield-alt" style="font-size: 1.5rem; color: var(--danger);"></i>
                         <div>
@@ -165,7 +166,7 @@ $view = $_GET['view'] ?? 'full';
 
                 <?php elseif ($view == 'dpdp'): ?>
                 <!-- DPDP Compliance Ledger -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <h3 class="widget-title">Statutory Data Erasure Proof-of-Completion</h3>
                     <table class="data-table">
                         <thead>
@@ -183,7 +184,7 @@ $view = $_GET['view'] ?? 'full';
                                 <td>13 May 2026</td>
                                 <td>24 May 2026</td>
                                 <td><span style="color: var(--success); font-weight: 700;">-11 Days (Ahead)</span></td>
-                                <td><button class="btn" style="font-size: 0.65rem; background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white;">View Full JSON Audit</button></td>
+                                <td><button class="btn btn-secondary" style="font-size: 0.65rem;" onclick="handleAuditAction('view_json', '#DEL_9210')">View Full JSON Audit</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -193,5 +194,41 @@ $view = $_GET['view'] ?? 'full';
             </div>
         </main>
     </div>
+    <script>
+        async function handleAuditAction(action, target) {
+            let config = {
+                title: 'Audit Action',
+                text: '',
+                icon: 'info',
+                showConfirmButton: false,
+                timer: 2000,
+                background: 'rgba(15, 23, 42, 0.95)',
+                color: '#fff',
+                backdrop: `rgba(0,0,0,0.4) blur(4px)`
+            };
+
+            if (action === 'export_csv') { config.text = 'Generating cryptographic export for the ' + target + ' ledger...'; config.icon = 'success'; }
+            else if (action === 'view_json') config.text = 'Fetching immutable JSON data for entity ' + target + '...';
+            
+            Swal.fire(config);
+
+            // Backend Integration
+            /*
+            try {
+                const response = await fetch('/api/admin/audit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    Swal.fire({ icon: 'success', title: 'Success', text: result.message, timer: 1500 });
+                }
+            } catch (error) {
+                console.error("Backend Error:", error);
+            }
+            */
+        }
+    </script>
 </body>
 </html>

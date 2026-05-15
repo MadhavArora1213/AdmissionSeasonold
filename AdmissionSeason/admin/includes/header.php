@@ -1,4 +1,7 @@
 <header class="header">
+    <div class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
     <div class="header-search">
         <i class="fas fa-search"></i>
         <input type="text" placeholder="Search for colleges, students, or leads...">
@@ -23,3 +26,21 @@
         </div>
     </div>
 </header>
+
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<script>
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+    
+    // Prevent scrolling when sidebar is open on mobile
+    if(sidebar.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+    }
+}
+</script>

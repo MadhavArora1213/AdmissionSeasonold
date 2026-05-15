@@ -9,6 +9,7 @@ require_once 'includes/db.php';
     <title>DPDP Compliance Centre | EduSearch Admin</title>
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="admin-container">
@@ -26,22 +27,22 @@ require_once 'includes/db.php';
                 </div>
 
                 <div class="kpi-strip">
-                    <div class="kpi-card">
+                    <div class="kpi-card glass-card">
                         <div class="kpi-label">Pending Deletions</div>
                         <div class="kpi-value">12</div>
                         <div class="kpi-trend trend-down">Avg age: 8 days</div>
                     </div>
-                    <div class="kpi-card">
+                    <div class="kpi-card glass-card">
                         <div class="kpi-label">Export Requests</div>
                         <div class="kpi-value">5</div>
                         <div class="kpi-trend trend-up">Right to Access</div>
                     </div>
-                    <div class="kpi-card">
+                    <div class="kpi-card glass-card">
                         <div class="kpi-label">Consent Log Hash</div>
                         <div class="kpi-value" style="font-size: 0.9rem; font-family: monospace;">SHA-256 Verified</div>
                         <div style="font-size: 0.6rem; color: var(--success);"><i class="fas fa-lock"></i> Immutable Ledger Active</div>
                     </div>
-                    <div class="kpi-card" style="border-left: 4px solid var(--danger);">
+                    <div class="kpi-card glass-card" style="border-left: 4px solid var(--danger);">
                         <div class="kpi-label">Minor Account Flag</div>
                         <div class="kpi-value" style="color: var(--danger);">82</div>
                         <div style="font-size: 0.7rem; color: var(--text-secondary);">Guardian Consent Needed</div>
@@ -50,7 +51,7 @@ require_once 'includes/db.php';
 
                 <div class="dashboard-grid">
                     <!-- Data Deletion Queue -->
-                    <div class="widget w-full">
+                    <div class="widget w-full glass-card">
                         <div class="widget-header">
                             <h3 class="widget-title">Statutory Data Deletion Queue (Right to Erasure)</h3>
                             <span class="status-badge" style="background: rgba(239, 68, 68, 0.1); color: var(--danger); font-size: 0.75rem;">Statutory Deadline: 30 Days</span>
@@ -77,7 +78,7 @@ require_once 'includes/db.php';
                                     <td><span style="color: var(--danger); font-weight: 700;">DUE TODAY</span></td>
                                     <td><span class="status-badge" style="background: rgba(255,255,255,0.05); color: white;">Full Erasure</span></td>
                                     <td>
-                                        <button class="btn" style="background: var(--danger); color: white; font-size: 0.7rem;" onclick="confirmDeletion('Anand K.')">Process Deletion</button>
+                                        <button class="btn btn-secondary" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: var(--danger); font-size: 0.7rem;" onclick="confirmDeletion('Anand K.')">Process Deletion</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -90,7 +91,7 @@ require_once 'includes/db.php';
                                     <td><span style="color: var(--warning); font-weight: 700;">18 Days</span></td>
                                     <td><span class="status-badge" style="background: rgba(255,255,255,0.05); color: white;">Anonymization</span></td>
                                     <td>
-                                        <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; font-size: 0.7rem;">Process Deletion</button>
+                                        <button class="btn btn-secondary" style="font-size: 0.7rem;" onclick="confirmDeletion('Meera Shah')">Process Deletion</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -98,7 +99,7 @@ require_once 'includes/db.php';
                     </div>
 
                     <!-- Right to Access (Export) -->
-                    <div class="widget w-half">
+                    <div class="widget w-half glass-card">
                         <h3 class="widget-title">Data Export Requests (Right to Access)</h3>
                         <div style="margin-top: 1.5rem;">
                             <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
@@ -106,13 +107,13 @@ require_once 'includes/db.php';
                                     <div style="font-size: 0.85rem; font-weight: 700;">Request #EXP_921</div>
                                     <div style="font-size: 0.7rem; color: var(--text-secondary);">User: rahul.s@gmail.com</div>
                                 </div>
-                                <button class="btn btn-primary" style="font-size: 0.7rem;"><i class="fas fa-file-export"></i> Generate JSON</button>
+                                <button class="btn btn-primary" style="font-size: 0.7rem;" onclick="handleDPDPAction('export', '#EXP_921')"><i class="fas fa-file-export"></i> Generate JSON</button>
                             </div>
                         </div>
                     </div>
 
                     <!-- Consent Audit Log -->
-                    <div class="widget w-half">
+                    <div class="widget w-half glass-card">
                         <h3 class="widget-title">Consent Audit Log (Immutable)</h3>
                         <div style="margin-top: 1.5rem; font-size: 0.75rem; color: var(--text-secondary); max-height: 200px; overflow-y: auto;">
                             <div style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
@@ -129,8 +130,8 @@ require_once 'includes/db.php';
     </div>
 
     <!-- Process Deletion Modal -->
-    <div id="deletion-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center;">
-        <div class="widget" style="width: 450px; background: var(--sidebar-bg); border: 2px solid var(--danger);">
+    <div id="deletion-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
+        <div class="widget glass-card" style="width: 450px; border: 2px solid var(--danger);">
             <div class="widget-header">
                 <h3 class="widget-title" style="color: var(--danger);"><i class="fas fa-exclamation-triangle"></i> STATUTORY DELETION</h3>
                 <button class="action-btn" onclick="document.getElementById('deletion-modal').style.display='none'"><i class="fas fa-times"></i></button>
@@ -145,7 +146,7 @@ require_once 'includes/db.php';
                         <li><i class="fas fa-check-circle" style="color: var(--success);"></i> Log completion in Audit Trail</li>
                     </ul>
                 </div>
-                <button class="btn" style="width: 100%; background: var(--danger); color: white; font-weight: 700;">PERFORM STATUTORY ERASURE</button>
+                <button class="btn btn-primary" style="width: 100%; background: var(--danger); color: white; font-weight: 700;" onclick="handleDPDPAction('process_erasure', document.getElementById('subject-name').innerText)">PERFORM STATUTORY ERASURE</button>
             </div>
         </div>
     </div>
@@ -154,6 +155,43 @@ require_once 'includes/db.php';
         function confirmDeletion(name) {
             document.getElementById('subject-name').innerText = name;
             document.getElementById('deletion-modal').style.display = 'flex';
+        }
+
+        async function handleDPDPAction(action, target) {
+            Swal.fire({
+                title: 'DPDP Compliance',
+                text: 'Processing statutory request...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            try {
+                const response = await fetch('admin_api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target, module: 'dpdp_compliance' })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Completed',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        if (action === 'process_erasure') {
+                            document.getElementById('deletion-modal').style.display = 'none';
+                        }
+                    });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: result.message });
+                }
+            } catch (error) {
+                console.error("DPDP API Error:", error);
+                Swal.fire({ icon: 'error', title: 'Connection Failure', text: 'Administrative API is currently unreachable.' });
+            }
         }
     </script>
 </body>

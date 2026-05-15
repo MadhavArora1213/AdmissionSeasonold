@@ -1,9 +1,24 @@
 <?php
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
+ini_set('display_errors', 0);
 session_start();
 
 if (!isset($_SESSION['admin_id'])) {
     header('Location: login.php');
     exit;
+}
+
+// Ensure all required session variables are set
+if (!isset($_SESSION['admin_name'])) {
+    $_SESSION['admin_name'] = 'Admin';
+}
+
+if (!isset($_SESSION['admin_role'])) {
+    $_SESSION['admin_role'] = 'SUPER_ADMIN';
+}
+
+if (!isset($_SESSION['admin_email'])) {
+    $_SESSION['admin_email'] = 'admin@example.com';
 }
 
 // Function to check specific roles if needed for specific pages

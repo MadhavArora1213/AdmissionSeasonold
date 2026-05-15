@@ -11,6 +11,7 @@ $view = $_GET['view'] ?? 'status';
     <title>Backup & Disaster Recovery | EduSearch Admin</title>
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .bak-tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
         .bak-tab { padding: 10px 20px; cursor: pointer; color: var(--text-secondary); border-bottom: 2px solid transparent; }
@@ -37,22 +38,22 @@ $view = $_GET['view'] ?? 'status';
                 </div>
 
                 <div class="kpi-strip">
-                    <div class="kpi-card">
+                    <div class="kpi-card glass-card">
                         <div class="kpi-label">RPO Target</div>
                         <div class="kpi-value">< 5 mins</div>
                         <div class="kpi-trend trend-up">WAL Streaming Active</div>
                     </div>
-                    <div class="kpi-card">
+                    <div class="kpi-card glass-card">
                         <div class="kpi-label">RTO Target</div>
                         <div class="kpi-value">< 2 hours</div>
                         <div class="kpi-trend trend-up">Procedure Verified</div>
                     </div>
-                    <div class="kpi-card">
+                    <div class="kpi-card glass-card">
                         <div class="kpi-label">Retention Policy</div>
                         <div class="kpi-value">7D/4W/6M</div>
                         <div style="font-size: 0.7rem; color: var(--text-secondary);">R2 Lifecycle Active</div>
                     </div>
-                    <div class="kpi-card">
+                    <div class="kpi-card glass-card">
                         <div class="kpi-label">Monthly DR Test</div>
                         <div class="kpi-value" style="color: var(--success);">PASSED</div>
                         <div style="font-size: 0.7rem; color: var(--text-secondary);">Last Test: May 02, 2026</div>
@@ -106,7 +107,7 @@ $view = $_GET['view'] ?? 'status';
 
                 <?php elseif ($view == 'restore'): ?>
                 <!-- Screen 6.3.2 — Restore Procedure (Triple Gated) -->
-                <div class="widget w-full" style="border: 2px solid var(--danger);">
+                <div class="widget w-full glass-card" style="border: 2px solid var(--danger);">
                     <div class="widget-header">
                         <h3 class="widget-title" style="color: var(--danger);"><i class="fas fa-exclamation-triangle"></i> HIGH-STAKES RESTORE CONSOLE</h3>
                     </div>
@@ -116,10 +117,10 @@ $view = $_GET['view'] ?? 'status';
                             <div class="gate-number">1</div>
                             <h4 style="color: white; margin-bottom: 10px;">Select & Stage Recovery Instance</h4>
                             <div style="display: flex; gap: 1rem; align-items: center;">
-                                <select class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; flex: 1;">
+                                <select class="btn btn-secondary" style="flex: 1;">
                                     <option>Select Backup: 13 May 2026 (4.24 GB)</option>
                                 </select>
-                                <button class="btn btn-primary">Restore to Staging</button>
+                                <button class="btn btn-primary" onclick="handleBackupAction('stage_restore', '2026-05-13')">Restore to Staging</button>
                             </div>
                             <p style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 10px;">Safe operation: Spins up a shadow PostgreSQL instance to verify data integrity before production promotion.</p>
                         </div>
@@ -140,7 +141,7 @@ $view = $_GET['view'] ?? 'status';
 
                 <?php elseif ($view == 'dr_log'): ?>
                 <!-- Monthly DR Test Log -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <h3 class="widget-title">Statutory Disaster Recovery Audit Trail</h3>
                     <table class="data-table">
                         <thead>
@@ -178,5 +179,47 @@ $view = $_GET['view'] ?? 'status';
             </div>
         </main>
     </div>
+    <script>
+        async function handleBackupAction(action, target) {
+            let config = {
+                title: 'Backup Operations',
+                text: '',
+                icon: 'info',
+                showConfirmButton: false,
+                timer: 2000,
+                background: 'rgba(15, 23, 42, 0.95)',
+                color: '#fff',
+                backdrop: `rgba(0,0,0,0.4) blur(4px)`
+            };
+
+            if (action === 'manual_backup') { config.text = 'Initializing pg_dump sequence for production database...'; config.icon = 'info'; }
+            else if (action === 'download') config.text = 'Generating signed R2 download link for backup ' + target + '...';
+            else if (action === 'verify') config.text = 'Staging verification instance for backup ' + target + '...';
+            else if (action === 'stage_restore') { 
+                config.text = 'CRITICAL: Provisioning staging recovery environment...'; 
+                config.icon = 'warning'; 
+                config.timer = 3000;
+            }
+            
+            Swal.fire(config);
+
+            // Backend Integration
+            /*
+            try {
+                const response = await fetch('/api/admin/backup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    Swal.fire({ icon: 'success', title: 'Success', text: result.message, timer: 1500 });
+                }
+            } catch (error) {
+                console.error("Backend Error:", error);
+            }
+            */
+        }
+    </script>
 </body>
 </html>

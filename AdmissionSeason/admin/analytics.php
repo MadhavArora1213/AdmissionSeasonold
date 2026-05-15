@@ -12,6 +12,7 @@ $view = $_GET['view'] ?? 'engagement';
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .gro-tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; overflow-x: auto; padding-bottom: 5px; }
         .gro-tab { padding: 10px 20px; cursor: pointer; color: var(--text-secondary); border-bottom: 2px solid transparent; white-space: nowrap; }
@@ -62,14 +63,14 @@ $view = $_GET['view'] ?? 'engagement';
                 <?php if ($view == 'engagement'): ?>
                 <!-- Screen 9.1.1 — Core Engagement Metrics -->
                 <div class="dashboard-grid">
-                    <div class="widget w-full">
+                    <div class="widget w-full glass-card">
                         <div class="widget-header">
                             <h3 class="widget-title">DAU / WAU / MAU Trends (90 Days)</h3>
                         </div>
                         <canvas id="userTrendsChart" height="80"></canvas>
                     </div>
 
-                    <div class="widget w-half">
+                    <div class="widget w-half glass-card">
                         <h3 class="widget-title">Bounce Rate by Page Type</h3>
                         <table class="data-table" style="margin-top: 1rem;">
                             <thead>
@@ -103,7 +104,7 @@ $view = $_GET['view'] ?? 'engagement';
                         </table>
                     </div>
 
-                    <div class="widget w-half">
+                    <div class="widget w-half glass-card">
                         <h3 class="widget-title">Session Depth (Pages Viewed)</h3>
                         <canvas id="sessionDepthChart" height="150"></canvas>
                         <p style="text-align: center; font-size: 0.75rem; color: var(--text-secondary); margin-top: 10px;">Median: 4.8 Pages &bull; Target: > 4.0</p>
@@ -112,11 +113,11 @@ $view = $_GET['view'] ?? 'engagement';
 
                 <?php elseif ($view == 'funnel'): ?>
                 <!-- Screen 9.1.2 — Conversion Funnel -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">Growth Funnel: Visit → Account Creation</h3>
                         <div style="display: flex; gap: 10px;">
-                            <button class="btn btn-primary" style="font-size: 0.75rem;">Segment by Device</button>
+                            <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleAnalyticsAction('segment', 'Device')">Segment by Device</button>
                         </div>
                     </div>
                     
@@ -154,7 +155,7 @@ $view = $_GET['view'] ?? 'engagement';
 
                 <?php elseif ($view == 'retention'): ?>
                 <!-- Screen 9.1.3 — Cohort Retention Table -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <h3 class="widget-title">Weekly Retention Cohorts (Registration Week)</h3>
                     <div style="margin-top: 1.5rem; overflow-x: auto;">
                         <table class="cohort-table">
@@ -204,7 +205,7 @@ $view = $_GET['view'] ?? 'engagement';
 
                 <?php elseif ($view == 'content'): ?>
                 <!-- Screen 9.2.1 — Content Performance Table -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">High-Traffic Page Performance</h3>
                     </div>
@@ -234,7 +235,7 @@ $view = $_GET['view'] ?? 'engagement';
                                 <td>2m 45s</td>
                                 <td><span style="color: var(--warning); font-weight: 700;">4.2%</span></td>
                                 <td>45%</td>
-                                <td><button class="btn btn-primary" style="font-size: 0.65rem;">Optimize UX</button></td>
+                                <td><button class="btn btn-primary" style="font-size: 0.65rem;" onclick="handleAnalyticsAction('optimize_ux', '/college/lpu-jalandhar')">Optimize UX</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -243,10 +244,10 @@ $view = $_GET['view'] ?? 'engagement';
                 <?php elseif ($view == 'abtests'): ?>
                 <!-- Screen 9.2.2 — A/B Test Manager -->
                 <div class="dashboard-grid">
-                    <div class="widget w-two-thirds">
+                    <div class="widget w-two-thirds glass-card">
                         <div class="widget-header">
                             <h3 class="widget-title">Active Experiments</h3>
-                            <button class="btn btn-primary" style="font-size: 0.75rem;">+ Create New Test</button>
+                            <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleAnalyticsAction('new_test', 'targeted')">+ Create New Test</button>
                         </div>
                         
                         <div class="ab-test-card">
@@ -267,11 +268,11 @@ $view = $_GET['view'] ?? 'engagement';
                                     <div style="font-size: 1.2rem; font-weight: 700; color: var(--success);">11.4% Conv (+39%)</div>
                                 </div>
                             </div>
-                            <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">Auto-Promote Variant B to 100% Traffic</button>
+                            <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;" onclick="handleAnalyticsAction('promote_variant', 'Variant B')">Auto-Promote Variant B to 100% Traffic</button>
                         </div>
                     </div>
 
-                    <div class="widget w-third">
+                    <div class="widget w-third glass-card">
                         <h3 class="widget-title">Experiment Logic</h3>
                         <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 1rem; line-height: 1.6;">
                             Our A/B engine uses **Bayesian Statistics** to calculate significance. We only promote winners when the "Probability of B beating A" exceeds 95%. This prevents false positives from sample noise.
@@ -315,6 +316,40 @@ $view = $_GET['view'] ?? 'engagement';
                 },
                 options: { responsive: true, plugins: { legend: { display: false } } }
             });
+        }
+    </script>
+    <script>
+        async function handleAnalyticsAction(action, target) {
+            Swal.fire({
+                title: 'Data Insights',
+                text: 'Querying analytical warehouse...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            try {
+                const response = await fetch('admin_api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target, module: 'analytics' })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Completed',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: result.message });
+                }
+            } catch (error) {
+                console.error("Analytics API Error:", error);
+                Swal.fire({ icon: 'error', title: 'Connection Failure', text: 'Could not connect to the analytics processor.' });
+            }
         }
     </script>
 </body>

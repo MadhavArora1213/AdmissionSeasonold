@@ -12,6 +12,7 @@ $view = $_GET['view'] ?? 'monitor';
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .lead-tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
         .lead-tab { padding: 10px 20px; cursor: pointer; color: var(--text-secondary); border-bottom: 2px solid transparent; }
@@ -51,7 +52,7 @@ $view = $_GET['view'] ?? 'monitor';
                 <?php if ($view == 'monitor'): ?>
                 <!-- Screen 4.1.1 — Live Lead Monitor -->
                 <div class="dashboard-grid">
-                    <div class="widget w-full">
+                    <div class="widget w-full glass-card">
                         <div class="widget-header">
                             <h3 class="widget-title">Real-time Lead Flow (Today)</h3>
                             <div style="color: var(--danger); font-size: 0.75rem; font-weight: 700;">
@@ -61,7 +62,7 @@ $view = $_GET['view'] ?? 'monitor';
                         <canvas id="liveLeadChart" height="80"></canvas>
                     </div>
 
-                    <div class="widget w-full">
+                    <div class="widget w-full glass-card">
                         <table class="data-table">
                             <thead>
                                 <tr>
@@ -74,22 +75,49 @@ $view = $_GET['view'] ?? 'monitor';
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><strong>Rahul Sharma</strong> <span class="dedup-badge">MERGED</span></td>
-                                    <td>BITS Pilani (B.Tech)</td>
-                                    <td><span class="status-badge status-approved">9.2</span></td>
-                                    <td><span class="status-badge status-approved"><i class="fas fa-check"></i> Delivered</span></td>
-                                    <td>12s</td>
-                                    <td><button class="action-btn"><i class="fas fa-history"></i></button></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Test User</strong></td>
-                                    <td>VIT Vellore (MBA)</td>
-                                    <td><span class="status-badge status-rejected">1.4</span></td>
-                                    <td><span class="failed-lead" onclick="alert('Brevo Error: SMS Blocked by Carrier (NDNC)')"><i class="fas fa-times-circle"></i> Failed</span></td>
-                                    <td>-</td>
-                                    <td><button class="action-btn" style="color: var(--accent-primary);">Retry</button></td>
-                                </tr>
+                                <?php
+                                $stmt = $pdo->query("
+                                    SELECT l.*, c.name as college_name 
+                                    FROM leads l 
+                                    LEFT JOIN colleges c ON l.college_id = c.id 
+                                    ORDER BY l.created_at DESC 
+                                    LIMIT 20
+                                ");
+                                $real_leads = $stmt->fetchAll();
+                                
+                                if (empty($real_leads)): ?>
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                            No leads received yet. Try submitting an application on the frontend!
+                                        </td>
+                                    </tr>
+                                <?php else:
+                                    foreach ($real_leads as $lead): ?>
+                                    <tr>
+                                        <td>
+                                            <strong><?php echo htmlspecialchars($lead['student_name']); ?></strong>
+                                            <div style="font-size: 0.7rem; color: var(--text-secondary);"><?php echo htmlspecialchars($lead['student_email']); ?></div>
+                                        </td>
+                                        <td>
+                                            <?php echo htmlspecialchars($lead['college_name'] ?? 'General Inquiry'); ?>
+                                            <div style="font-size: 0.7rem; color: var(--text-secondary);"><?php echo htmlspecialchars($lead['student_phone']); ?></div>
+                                        </td>
+                                        <td><span class="status-badge status-approved"><?php echo $lead['quality_score'] ?? '8.5'; ?></span></td>
+                                        <td>
+                                            <span class="status-badge <?php echo $lead['status'] == 'NEW' ? 'status-pending' : 'status-approved'; ?>">
+                                                <i class="fas <?php echo $lead['status'] == 'NEW' ? 'fa-clock' : 'fa-check'; ?>"></i> 
+                                                <?php echo htmlspecialchars($lead['status']); ?>
+                                            </span>
+                                        </td>
+                                        <td><?php echo date('H:i', strtotime($lead['created_at'])); ?></td>
+                                        <td>
+                                            <button class="action-btn" onclick="handleLeadAction('history', '<?php echo addslashes($lead['student_name']); ?>')">
+                                                <i class="fas fa-history"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach;
+                                endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -97,7 +125,7 @@ $view = $_GET['view'] ?? 'monitor';
 
                 <?php elseif ($view == 'disputes'): ?>
                 <!-- Screen 4.1.2 — Invalid Lead Dispute Workflow -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">Active Dispute Queue</h3>
                         <div style="display: flex; gap: 10px;">
@@ -121,20 +149,20 @@ $view = $_GET['view'] ?? 'monitor';
                             <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
                                 <h5 style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 10px;">Investigation Tools</h5>
                                 <div style="display: flex; gap: 10px;">
-                                    <button class="btn" style="background: var(--sidebar-bg); color: white; font-size: 0.7rem;"><i class="fas fa-phone-alt"></i> Call (Masked)</button>
-                                    <button class="btn" style="background: var(--sidebar-bg); color: white; font-size: 0.7rem;"><i class="fas fa-search"></i> Truecaller API</button>
+                                    <button class="btn btn-secondary" style="font-size: 0.7rem;" onclick="handleLeadAction('masked_call', '#DSP-8291')"><i class="fas fa-phone-alt"></i> Call (Masked)</button>
+                                    <button class="btn btn-secondary" style="font-size: 0.7rem;" onclick="handleLeadAction('truecaller', '#DSP-8291')"><i class="fas fa-search"></i> Truecaller API</button>
                                 </div>
                             </div>
                             <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
                                 <h5 style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 5px;">Internal Decision Note</h5>
-                                <textarea placeholder="Reason for approval/rejection..." style="width: 100%; background: transparent; border: 1px solid var(--border-color); color: white; font-size: 0.75rem; padding: 5px; border-radius: 4px;"></textarea>
+                                <textarea id="decision-note" placeholder="Reason for approval/rejection..." style="width: 100%; background: transparent; border: 1px solid var(--border-color); color: white; font-size: 0.75rem; padding: 5px; border-radius: 4px;"></textarea>
                             </div>
                         </div>
 
                         <div style="display: flex; gap: 10px;">
-                            <button class="btn btn-primary" style="font-size: 0.8rem;">Approve & Issue Credits (₹1,800)</button>
-                            <button class="btn" style="background: var(--danger); color: white; font-size: 0.8rem;">Reject Dispute</button>
-                            <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; font-size: 0.8rem;">Partial Approval...</button>
+                            <button class="btn btn-primary" style="font-size: 0.8rem;" onclick="handleDispute('approve')">Approve & Issue Credits (₹1,800)</button>
+                            <button class="btn btn-secondary" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: var(--danger); font-size: 0.8rem;" onclick="handleDispute('reject')">Reject Dispute</button>
+                            <button class="btn btn-secondary" style="font-size: 0.8rem;" onclick="handleDispute('partial')">Partial Approval...</button>
                         </div>
                     </div>
                 </div>
@@ -142,7 +170,7 @@ $view = $_GET['view'] ?? 'monitor';
                 <?php elseif ($view == 'performance'): ?>
                 <!-- Screen 4.1.3 — Lead SLA & Performance Dashboard -->
                 <div class="dashboard-grid">
-                    <div class="widget w-full">
+                    <div class="widget w-full glass-card">
                         <h3 class="widget-title">Delivery Latency (Submission → SMS Received)</h3>
                         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1.5rem;">
                             <div class="sla-card">
@@ -165,7 +193,7 @@ $view = $_GET['view'] ?? 'monitor';
                         </div>
                     </div>
 
-                    <div class="widget w-half">
+                    <div class="widget w-half glass-card">
                         <h3 class="widget-title">College Conversion ROI (Lead → Enrolled)</h3>
                         <table class="data-table">
                             <thead>
@@ -194,11 +222,11 @@ $view = $_GET['view'] ?? 'monitor';
                 <?php elseif ($view == 'attribution'): ?>
                 <!-- Screen 4.1.4 — Lead Source Attribution -->
                 <div class="dashboard-grid">
-                    <div class="widget w-two-thirds">
+                    <div class="widget w-two-thirds glass-card">
                         <h3 class="widget-title">Channel Attribution</h3>
                         <canvas id="attributionChart" height="150"></canvas>
                     </div>
-                    <div class="widget w-third">
+                    <div class="widget w-third glass-card">
                         <h3 class="widget-title">Hourly Heatmap (Submission Time)</h3>
                         <div class="heatmap-grid">
                             <?php for($i=0; $i<24; $i++): 
@@ -213,10 +241,10 @@ $view = $_GET['view'] ?? 'monitor';
 
                 <?php elseif ($view == 'blacklist'): ?>
                 <!-- Blacklist Management -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">Revenue Protection Blacklist</h3>
-                        <button class="btn btn-primary" style="font-size: 0.75rem;">+ Add Block Identifier</button>
+                        <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleLeadAction('add_blacklist', 'new_entry')">+ Add Block Identifier</button>
                     </div>
                     <table class="data-table">
                         <thead>
@@ -232,7 +260,7 @@ $view = $_GET['view'] ?? 'monitor';
                                 <td><strong>spam.bot@competitor.com</strong></td>
                                 <td>Mass form submissions (422 in 1h)</td>
                                 <td>12 May 2026</td>
-                                <td><button class="action-btn" style="color: var(--danger);"><i class="fas fa-trash"></i> Unblock</button></td>
+                                <td><button class="action-btn" style="color: var(--danger);" onclick="handleLeadAction('unblock', 'spam.bot@competitor.com')"><i class="fas fa-trash"></i> Unblock</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -280,6 +308,75 @@ $view = $_GET['view'] ?? 'monitor';
                 },
                 options: { responsive: true, plugins: { legend: { display: false } }, indexAxis: 'y' }
             });
+        }
+
+        async function handleDispute(action) {
+            Swal.fire({
+                title: 'Processing Dispute',
+                text: 'Updating ledger & notifying college...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            try {
+                const note = document.getElementById('decision-note')?.value || '';
+                const response = await fetch('admin_api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'dispute_' + action, module: 'leads', note: note })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: result.message });
+                }
+            } catch (error) {
+                console.error("Dispute API Error:", error);
+                Swal.fire({ icon: 'error', title: 'Connection Failure', text: 'Administrative API is currently unreachable.' });
+            }
+        }
+
+        async function handleLeadAction(action, target) {
+            Swal.fire({
+                title: 'Lead Operations',
+                text: 'Interfacing with carrier & verification APIs...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            try {
+                const response = await fetch('admin_api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target, module: 'leads' })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: result.message });
+                }
+            } catch (error) {
+                console.error("Lead API Error:", error);
+                Swal.fire({ icon: 'error', title: 'Connection Failure', text: 'Administrative API is currently unreachable.' });
+            }
         }
     </script>
 </body>

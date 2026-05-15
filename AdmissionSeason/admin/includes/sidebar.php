@@ -3,8 +3,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <div class="sidebar">
     <div class="sidebar-logo">
-        <i class="fas fa-graduation-cap"></i>
-        EduSearch
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-graduation-cap"></i>
+            EduSearch
+        </div>
+        <div class="sidebar-close" onclick="toggleSidebar()">
+            <i class="fas fa-times"></i>
+        </div>
     </div>
     
     <div class="sidebar-nav">
@@ -82,11 +87,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <div style="margin-top: auto; padding: 20px; border-top: 1px solid var(--border-color); background: rgba(0,0,0,0.1);">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
             <div style="width: 35px; height: 35px; background: var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white;">
-                <?php echo strtoupper(substr($_SESSION['admin_name'], 0, 1)); ?>
+                <?php echo strtoupper(substr(isset($_SESSION['admin_name']) ? $_SESSION['admin_name'] : 'A', 0, 1)); ?>
             </div>
             <div>
-                <div style="font-size: 0.85rem; font-weight: 700; color: white;"><?php echo $_SESSION['admin_name']; ?></div>
-                <div style="font-size: 0.65rem; color: var(--text-secondary);"><?php echo str_replace('_', ' ', $_SESSION['admin_role']); ?></div>
+                <div style="font-size: 0.85rem; font-weight: 700; color: white;"><?php echo isset($_SESSION['admin_name']) ? htmlspecialchars($_SESSION['admin_name']) : 'Admin'; ?></div>
+                <div style="font-size: 0.65rem; color: var(--text-secondary);"><?php echo isset($_SESSION['admin_role']) ? str_replace('_', ' ', htmlspecialchars($_SESSION['admin_role'])) : 'Super Admin'; ?></div>
             </div>
         </div>
         <a href="logout.php" style="display: flex; align-items: center; gap: 10px; color: var(--danger); text-decoration: none; font-size: 0.85rem; font-weight: 700;">

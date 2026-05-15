@@ -11,10 +11,25 @@ $view = $_GET['view'] ?? 'abuse';
     <title>Security & Access Control | EduSearch Admin</title>
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        .sec-tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
-        .sec-tab { padding: 10px 20px; cursor: pointer; color: var(--text-secondary); border-bottom: 2px solid transparent; }
+        .sec-tabs { 
+            display: flex; 
+            gap: 1rem; 
+            border-bottom: 1px solid var(--border-color); 
+            margin-bottom: 2rem; 
+            overflow-x: auto; 
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+        }
+        .sec-tabs::-webkit-scrollbar { display: none; }
+        .sec-tab { padding: 10px 20px; cursor: pointer; color: var(--text-secondary); border-bottom: 2px solid transparent; white-space: nowrap; }
         .sec-tab.active { color: var(--accent-primary); border-bottom-color: var(--accent-primary); font-weight: 700; }
+        
+        @media (max-width: 768px) {
+            .session-card { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .session-card > .btn { width: 100%; }
+        }
         
         .matrix-table th, .matrix-table td { text-align: center; padding: 12px; border: 1px solid var(--border-color); }
         .matrix-table td i.fa-check { color: var(--success); }
@@ -48,47 +63,49 @@ $view = $_GET['view'] ?? 'abuse';
                 <?php if ($view == 'abuse'): ?>
                 <!-- Screen 5.2.1 — Rate Limit & Abuse Dashboard -->
                 <div class="dashboard-grid">
-                    <div class="widget w-full">
+                    <div class="widget w-full glass-card">
                         <div class="widget-header">
                             <h3 class="widget-title">Real-time Rate Limit Violations (24h)</h3>
-                            <button class="btn btn-primary" style="font-size: 0.75rem;"><i class="fas fa-ban"></i> Bulk Block Selected</button>
+                            <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleSecurityAction('bulk_block', 'selected')"><i class="fas fa-ban"></i> Bulk Block Selected</button>
                         </div>
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th width="40"><input type="checkbox"></th>
-                                    <th>IP Address</th>
-                                    <th>Limit Type</th>
-                                    <th>Hits</th>
-                                    <th>Auto-Blocked</th>
-                                    <th>Risk Level</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="background: rgba(239, 68, 68, 0.05);">
-                                    <td><input type="checkbox"></td>
-                                    <td><strong>103.24.12.82</strong> <div style="font-size: 0.65rem; color: var(--text-secondary);">Mumbai, India</div></td>
-                                    <td><span class="status-badge" style="background: rgba(168, 85, 247, 0.1); color: var(--accent-secondary);">Login Attempts</span></td>
-                                    <td><strong>42</strong></td>
-                                    <td><span style="color: var(--success);"><i class="fas fa-check-circle"></i> Yes</span></td>
-                                    <td><span class="status-badge status-rejected">CRITICAL</span></td>
-                                    <td><button class="action-btn" style="color: var(--danger);"><i class="fas fa-gavel"></i> Permanent Block</button></td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td><strong>45.12.92.110</strong> <div style="font-size: 0.65rem; color: var(--text-secondary);">Frankfurt, DE</div></td>
-                                    <td><span class="status-badge" style="background: rgba(99, 102, 241, 0.1); color: var(--accent-primary);">AI Counselor</span></td>
-                                    <td><strong>158</strong></td>
-                                    <td><span style="color: var(--warning);"><i class="fas fa-clock"></i> Temp Block</span></td>
-                                    <td><span class="status-badge status-pending">HIGH</span></td>
-                                    <td><button class="action-btn"><i class="fas fa-history"></i></button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="data-table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th width="40"><input type="checkbox"></th>
+                                        <th>IP Address</th>
+                                        <th>Limit Type</th>
+                                        <th>Hits</th>
+                                        <th>Auto-Blocked</th>
+                                        <th>Risk Level</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background: rgba(239, 68, 68, 0.05);">
+                                        <td><input type="checkbox"></td>
+                                        <td><strong>103.24.12.82</strong> <div style="font-size: 0.65rem; color: var(--text-secondary);">Mumbai, India</div></td>
+                                        <td><span class="status-badge" style="background: rgba(168, 85, 247, 0.1); color: var(--accent-secondary);">Login Attempts</span></td>
+                                        <td><strong>42</strong></td>
+                                        <td><span style="color: var(--success);"><i class="fas fa-check-circle"></i> Yes</span></td>
+                                        <td><span class="status-badge status-rejected">CRITICAL</span></td>
+                                        <td><button class="action-btn" style="color: var(--danger);" onclick="handleSecurityAction('permanent_block', '103.24.12.82')"><i class="fas fa-gavel"></i> Permanent Block</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td><strong>45.12.92.110</strong> <div style="font-size: 0.65rem; color: var(--text-secondary);">Frankfurt, DE</div></td>
+                                        <td><span class="status-badge" style="background: rgba(99, 102, 241, 0.1); color: var(--accent-primary);">AI Counselor</span></td>
+                                        <td><strong>158</strong></td>
+                                        <td><span style="color: var(--warning);"><i class="fas fa-clock"></i> Temp Block</span></td>
+                                        <td><span class="status-badge status-pending">HIGH</span></td>
+                                        <td><button class="action-btn" onclick="handleSecurityAction('history', '45.12.92.110')"><i class="fas fa-history"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    <div class="widget w-half">
+                    <div class="widget w-half glass-card">
                         <h3 class="widget-title">Bot Detection Log</h3>
                         <div style="margin-top: 1rem;">
                             <div style="font-size: 0.75rem; color: var(--text-secondary); padding: 10px 0; border-bottom: 1px solid var(--border-color);">
@@ -100,22 +117,39 @@ $view = $_GET['view'] ?? 'abuse';
                         </div>
                     </div>
 
-                    <div class="widget w-half">
+                    <div class="widget w-half glass-card">
                         <h3 class="widget-title">Manual IP Control</h3>
                         <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">Immediately pushes to Nginx & Cloudflare WAF.</p>
                         <div style="display: flex; gap: 10px;">
-                            <input type="text" placeholder="Enter IP or CIDR Range..." style="flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: white; padding: 10px; border-radius: 8px;">
-                            <button class="btn btn-primary">Add to Deny List</button>
+                            <input type="text" id="manualIp" placeholder="Enter IP or CIDR Range..." style="flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: white; padding: 10px; border-radius: 8px;">
+                            <button class="btn btn-primary" onclick="handleSecurityAction('deny_list', document.getElementById('manualIp').value)">Add to Deny List</button>
+                        </div>
+
+                        <h4 style="margin-top: 2rem; font-size: 0.9rem; color: var(--accent-primary);">Active Deny List</h4>
+                        <div style="max-height: 200px; overflow-y: auto; margin-top: 1rem;">
+                            <?php
+                            $stmtB = $pdo->query("SELECT * FROM ip_blacklist ORDER BY created_at DESC");
+                            $blacklist = $stmtB->fetchAll();
+                            if (empty($blacklist)): ?>
+                                <p style="font-size: 0.75rem; color: var(--text-secondary);">No IPs currently blocked.</p>
+                            <?php else:
+                                foreach ($blacklist as $b): ?>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid var(--border-color);">
+                                    <span style="font-family: monospace; font-size: 0.8rem;"><?php echo $b['ip_address']; ?></span>
+                                    <button class="action-btn" style="color: var(--danger); font-size: 0.7rem;" onclick="handleSecurityAction('remove_block', '<?php echo $b['id']; ?>')"><i class="fas fa-trash"></i></button>
+                                </div>
+                                <?php endforeach;
+                            endif; ?>
                         </div>
                     </div>
                 </div>
 
                 <?php elseif ($view == 'sessions'): ?>
                 <!-- Screen 5.2.2 — Active Session Management -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">Active Administrative Sessions</h3>
-                        <button class="btn" style="background: var(--danger); color: white; font-size: 0.75rem;">Terminate All Sessions</button>
+                        <button class="btn btn-secondary" style="font-size: 0.75rem;" onclick="handleSecurityAction('terminate_all', 'admin')">Terminate All Sessions</button>
                     </div>
                     
                     <div class="session-card">
@@ -137,7 +171,7 @@ $view = $_GET['view'] ?? 'abuse';
                                 <div style="font-size: 0.75rem; color: var(--text-secondary);">IP: 122.14.82.XX &bull; Safari on iOS &bull; Last action 12m ago</div>
                             </div>
                         </div>
-                        <button class="btn" style="background: rgba(239, 68, 68, 0.1); color: var(--danger); font-size: 0.75rem;">Force Terminate</button>
+                        <button class="btn btn-secondary" style="font-size: 0.75rem;" onclick="handleSecurityAction('terminate_session', 'Pooja Singh')">Force Terminate</button>
                     </div>
 
                     <h3 class="widget-title" style="margin-top: 3rem; margin-bottom: 1rem;">Student Session Anomalies</h3>
@@ -147,18 +181,18 @@ $view = $_GET['view'] ?? 'abuse';
                             <div style="font-size: 0.75rem; color: var(--text-secondary);">Active from 4 different IP addresses (Delhi, Mumbai, Bangalore, Pune) within 60 mins.</div>
                         </div>
                         <div style="display: flex; gap: 10px;">
-                            <button class="btn btn-primary" style="font-size: 0.75rem;">Lock Account</button>
-                            <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; font-size: 0.75rem;">Security Alert Sent</button>
+                            <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleSecurityAction('lock_account', 'Vikram Aditya')">Lock Account</button>
+                            <button class="btn btn-secondary" style="font-size: 0.75rem;" onclick="handleSecurityAction('security_alert', 'Vikram Aditya')">Send Alert</button>
                         </div>
                     </div>
                 </div>
 
                 <?php elseif ($view == 'rbac'): ?>
                 <!-- Screen 5.2.3 — Admin RBAC Permission Matrix -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">Granular Permission Matrix (RBAC)</h3>
-                        <button class="btn btn-primary" style="font-size: 0.75rem;">Save Changes</button>
+                        <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleSecurityAction('save_rbac', 'all')">Save Changes</button>
                     </div>
                     <div style="overflow-x: auto;">
                         <table class="data-table matrix-table">
@@ -224,5 +258,46 @@ $view = $_GET['view'] ?? 'abuse';
             </div>
         </main>
     </div>
+    <script>
+        async function handleSecurityAction(action, target) {
+            if (action === 'deny_list' && !target) { 
+                Swal.fire({ icon: 'error', title: 'Error', text: 'Please enter an IP address.' }); 
+                return; 
+            }
+
+            Swal.fire({
+                title: 'Security Override',
+                text: 'Authorizing request via WAF gateway...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            try {
+                const response = await fetch('admin_api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target, module: 'security' })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Authorized',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        if (action === 'deny_list' || action === 'permanent_block' || action === 'remove_block') location.reload();
+                    });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Unauthorized', text: result.message });
+                }
+            } catch (error) {
+                console.error("Security Error:", error);
+                Swal.fire({ icon: 'error', title: 'Connection Failure', text: 'WAF rejected the handshake or server is offline.' });
+            }
+        }
+    </script>
 </body>
 </html>

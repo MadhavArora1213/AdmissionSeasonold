@@ -12,14 +12,29 @@ $view = $_GET['view'] ?? 'bulk';
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .seo-tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; overflow-x: auto; padding-bottom: 5px; }
         .seo-tab { padding: 10px 20px; cursor: pointer; color: var(--text-secondary); border-bottom: 2px solid transparent; white-space: nowrap; }
         .seo-tab.active { color: var(--accent-primary); border-bottom-color: var(--accent-primary); font-weight: 700; }
         
-        .meta-cell { cursor: pointer; transition: 0.2s; border: 1px solid transparent; padding: 5px; border-radius: 4px; }
+        .meta-cell { 
+            cursor: pointer; 
+            transition: 0.2s; 
+            border: 1px solid transparent; 
+            padding: 12px; 
+            border-radius: 8px; 
+            white-space: normal; 
+            word-break: break-word; 
+            line-height: 1.6; 
+        }
         .meta-cell:hover { border-color: var(--accent-primary); background: rgba(99, 102, 241, 0.05); }
-        .char-over { color: var(--danger); font-weight: 700; border-color: var(--danger) !important; }
+        .char-over { 
+            background: rgba(239, 68, 68, 0.05); 
+            color: var(--danger); 
+            font-weight: 700; 
+            border-color: rgba(239, 68, 68, 0.3) !important; 
+        }
         
         .cwv-card { background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 12px; border-top: 4px solid var(--accent-primary); }
         .cwv-good { color: var(--success); }
@@ -27,6 +42,13 @@ $view = $_GET['view'] ?? 'bulk';
         .cwv-poor { color: var(--danger); }
         
         .link-bubble { display: inline-block; padding: 4px 8px; background: rgba(255,255,255,0.05); border-radius: 15px; font-size: 0.7rem; margin-right: 5px; margin-bottom: 5px; border: 1px solid var(--border-color); }
+        
+        .bulk-table { table-layout: fixed; width: 100%; }
+        .bulk-table th:nth-child(1) { width: 40px; }
+        .bulk-table th:nth-child(2) { width: 15%; }
+        .bulk-table th:nth-child(3) { width: 25%; }
+        .bulk-table th:nth-child(4) { width: 45%; }
+        .bulk-table th:nth-child(5) { width: 100px; }
     </style>
 </head>
 <body>
@@ -57,22 +79,22 @@ $view = $_GET['view'] ?? 'bulk';
 
                 <?php if ($view == 'bulk'): ?>
                 <!-- Screen 7.1.1 — Metadata Bulk Editor -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <div style="display: flex; gap: 10px;">
-                            <select class="btn" style="background: var(--sidebar-bg); color: white; border: 1px solid var(--border-color); font-size: 0.8rem;">
+                            <select class="btn btn-secondary" style="font-size: 0.8rem;">
                                 <option>College Profile Pages</option>
                                 <option>Exam Detail Pages</option>
                                 <option>Course Combo Pages</option>
                             </select>
-                            <button class="btn btn-primary" style="font-size: 0.75rem;">Apply Template to Selected</button>
+                            <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleSEOAction('bulk_apply', 'selected_pages')">Apply Template to Selected</button>
                         </div>
                         <div class="header-search" style="width: 250px;">
                             <i class="fas fa-search"></i>
                             <input type="text" placeholder="Search URLs...">
                         </div>
                     </div>
-                    <table class="data-table">
+                    <table class="data-table bulk-table">
                         <thead>
                             <tr>
                                 <th width="40"><input type="checkbox"></th>
@@ -110,11 +132,11 @@ $view = $_GET['view'] ?? 'bulk';
                 <?php elseif ($view == 'health'): ?>
                 <!-- Screen 7.1.2 — Programmatic Page Health Monitor -->
                 <div class="dashboard-grid">
-                    <div class="widget w-third">
+                    <div class="widget w-third glass-card">
                         <h3 class="widget-title">Indexing Status (GSC)</h3>
                         <canvas id="indexStatusChart" height="250"></canvas>
                     </div>
-                    <div class="widget w-two-thirds">
+                    <div class="widget w-two-thirds glass-card">
                         <h3 class="widget-title">Top Indexing Issues (by Impact)</h3>
                         <table class="data-table" style="margin-top: 1rem;">
                             <thead>
@@ -130,13 +152,13 @@ $view = $_GET['view'] ?? 'bulk';
                                     <td><span style="color: var(--danger);">404 Not Found</span></td>
                                     <td>1,242</td>
                                     <td>8,200 visits/mo</td>
-                                    <td><button class="btn btn-primary" style="font-size: 0.7rem;">Fix & Redirect</button></td>
+                                    <td><button class="btn btn-primary" style="font-size: 0.7rem;" onclick="handleSEOAction('fix_404', '1,242 URLs')">Fix & Redirect</button></td>
                                 </tr>
                                 <tr>
                                     <td>Discovered - Not Crawled</td>
                                     <td>18,402</td>
                                     <td>42,000 visits/mo</td>
-                                    <td><button class="btn btn-primary" style="font-size: 0.7rem;">Submit to API</button></td>
+                                    <td><button class="btn btn-primary" style="font-size: 0.7rem;" onclick="handleSEOAction('submit_api', '18,402 URLs')">Submit to API</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -146,7 +168,7 @@ $view = $_GET['view'] ?? 'bulk';
                 <?php elseif ($view == 'cwv'): ?>
                 <!-- Screen 7.2.1 — Core Web Vitals Tracker -->
                 <div class="dashboard-grid">
-                    <div class="widget w-full">
+                    <div class="widget w-full glass-card">
                         <div class="widget-header">
                             <h3 class="widget-title">Google Field Data (Last 28 Days)</h3>
                         </div>
@@ -168,7 +190,7 @@ $view = $_GET['view'] ?? 'bulk';
                             </div>
                         </div>
                     </div>
-                    <div class="widget w-full">
+                    <div class="widget w-full glass-card">
                         <h3 class="widget-title">Pages Failing CWV Thresholds</h3>
                         <table class="data-table">
                             <thead>
@@ -195,13 +217,13 @@ $view = $_GET['view'] ?? 'bulk';
 
                 <?php elseif ($view == 'schema'): ?>
                 <!-- Screen 7.2.2 — Structured Data Validator -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">Live Schema Validator</h3>
                     </div>
                     <div style="display: flex; gap: 10px; margin-bottom: 2rem;">
-                        <input type="text" placeholder="Enter Page URL (e.g., https://edusearch.com/college/iit-delhi)" style="flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: white; padding: 10px; border-radius: 8px;">
-                        <button class="btn btn-primary">Validate JSON-LD</button>
+                        <input type="text" id="schema-url" placeholder="Enter Page URL (e.g., https://edusearch.com/college/iit-delhi)" style="flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: white; padding: 10px; border-radius: 8px;">
+                        <button class="btn btn-primary" onclick="handleSEOAction('validate_schema', document.getElementById('schema-url').value)">Validate JSON-LD</button>
                     </div>
                     
                     <div style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--success);">
@@ -227,7 +249,7 @@ $view = $_GET['view'] ?? 'bulk';
                 <?php elseif ($view == 'links'): ?>
                 <!-- Screen 7.2.3 — Internal Link Manager -->
                 <div class="dashboard-grid">
-                    <div class="widget w-half">
+                    <div class="widget w-half glass-card">
                         <h3 class="widget-title">Link Opportunity Finder</h3>
                         <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1.5rem;">Suggesting internal links for SEO authority distribution.</p>
                         <div class="activity-item">
@@ -239,7 +261,7 @@ $view = $_GET['view'] ?? 'bulk';
                             </div>
                         </div>
                     </div>
-                    <div class="widget w-half">
+                    <div class="widget w-half glass-card">
                         <h3 class="widget-title">Orphan Page Detector</h3>
                         <table class="data-table">
                             <thead>
@@ -253,7 +275,7 @@ $view = $_GET['view'] ?? 'bulk';
                                 <tr>
                                     <td>/college/new-private-institute-821</td>
                                     <td>14 Days</td>
-                                    <td><button class="btn btn-primary" style="font-size: 0.65rem;">Add Internal Links</button></td>
+                                    <td><button class="btn btn-primary" style="font-size: 0.65rem;" onclick="handleSEOAction('add_links', '/college/new-private-institute-821')">Add Internal Links</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -262,7 +284,7 @@ $view = $_GET['view'] ?? 'bulk';
 
                 <?php elseif ($view == 'gaps'): ?>
                 <!-- Screen 7.2.5 — Content Gap Finder -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">High-Impression Low-Click Keywords (GSC)</h3>
                     </div>
@@ -284,7 +306,7 @@ $view = $_GET['view'] ?? 'bulk';
                                 <td>2,410</td>
                                 <td>1.68%</td>
                                 <td style="color: var(--warning); font-weight: 700;">#12.4</td>
-                                <td><button class="btn btn-primary" style="font-size: 0.7rem;">Optimize Page Content</button></td>
+                                <td><button class="btn btn-primary" style="font-size: 0.7rem;" onclick="handleSEOAction('optimize', 'Delhi Private Colleges')">Optimize Page Content</button></td>
                             </tr>
                             <tr>
                                 <td><strong>"bits pilani average package cse"</strong></td>
@@ -292,7 +314,7 @@ $view = $_GET['view'] ?? 'bulk';
                                 <td>812</td>
                                 <td>1.92%</td>
                                 <td style="color: var(--warning); font-weight: 700;">#8.2</td>
-                                <td><button class="btn btn-primary" style="font-size: 0.7rem;">Add Placement Table</button></td>
+                                <td><button class="btn btn-primary" style="font-size: 0.7rem;" onclick="handleSEOAction('optimize', 'BITS Placements')">Add Placement Table</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -318,6 +340,44 @@ $view = $_GET['view'] ?? 'bulk';
                 },
                 options: { cutout: '70%', plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 12 } } } }
             });
+        }
+        async function handleSEOAction(action, target) {
+            let config = {
+                title: 'SEO Action',
+                text: '',
+                icon: 'info',
+                showConfirmButton: false,
+                timer: 2000,
+                background: 'rgba(15, 23, 42, 0.95)',
+                color: '#fff',
+                backdrop: `rgba(0,0,0,0.4) blur(4px)`
+            };
+
+            if (action === 'bulk_apply') { config.text = 'Applying SEO template to ' + target + '...'; config.icon = 'success'; }
+            else if (action === 'fix_404') { config.text = 'Initializing bulk redirect rules for ' + target + '...'; config.icon = 'warning'; }
+            else if (action === 'submit_api') { config.text = 'Pushing ' + target + ' to Google Indexing API...'; config.icon = 'success'; }
+            else if (action === 'validate_schema') { config.text = 'Fetching live DOM and validating JSON-LD for ' + target + '...'; config.icon = 'info'; }
+            else if (action === 'add_links') { config.text = 'Generating internal link suggestions for ' + target + '...'; config.icon = 'info'; }
+            else if (action === 'optimize') config.text = 'Opening content optimization workspace for ' + target + '...';
+            
+            Swal.fire(config);
+
+            // Backend Integration
+            /*
+            try {
+                const response = await fetch('/api/admin/seo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    Swal.fire({ icon: 'success', title: 'Success', text: result.message, timer: 1500 });
+                }
+            } catch (error) {
+                console.error("Backend Error:", error);
+            }
+            */
         }
     </script>
 </body>

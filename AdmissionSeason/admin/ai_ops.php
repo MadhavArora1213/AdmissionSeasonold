@@ -12,6 +12,7 @@ $view = $_GET['view'] ?? 'models';
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .ai-tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; overflow-x: auto; padding-bottom: 5px; }
         .ai-tab { padding: 10px 20px; cursor: pointer; color: var(--text-secondary); border-bottom: 2px solid transparent; white-space: nowrap; }
@@ -58,8 +59,8 @@ $view = $_GET['view'] ?? 'models';
                         <div class="widget-header">
                             <h3 class="widget-title">Active Inference Status</h3>
                             <div style="display: flex; gap: 10px;">
-                                <button class="btn" style="background: var(--danger); color: white; font-size: 0.75rem;">Unload Model</button>
-                                <button class="btn btn-primary" style="font-size: 0.75rem;">Force Reload</button>
+                                <button class="btn btn-secondary" style="font-size: 0.75rem;" onclick="handleAIAction('unload_model', 'Llama 3.1 8B')">Unload Model</button>
+                                <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleAIAction('force_reload', 'Llama 3.1 8B')">Force Reload</button>
                             </div>
                         </div>
                         <div class="ai-card" style="margin-top: 1.5rem;">
@@ -117,14 +118,14 @@ $view = $_GET['view'] ?? 'models';
                 <?php elseif ($view == 'quality'): ?>
                 <!-- Screen 8.2.1 — Counselor Performance Dashboard -->
                 <div class="dashboard-grid">
-                    <div class="widget w-full">
+                    <div class="widget w-full glass-card">
                         <div class="widget-header">
                             <h3 class="widget-title">Student Feedback Ratio (Thumbs Up/Down)</h3>
                         </div>
                         <canvas id="feedbackChart" height="80"></canvas>
                     </div>
 
-                    <div class="widget w-two-thirds">
+                    <div class="widget w-two-thirds glass-card">
                         <h3 class="widget-title">Low-Quality Response Samples (Last 24h)</h3>
                         <div style="margin-top: 1.5rem;">
                             <div class="ai-card offline" style="padding: 1rem;">
@@ -136,12 +137,12 @@ $view = $_GET['view'] ?? 'models';
                                     <strong>Counselor:</strong> "IIT Delhi is in Mumbai. You should apply for VIT as it is closer to Delhi."
                                     <div style="color: var(--danger); font-weight: 700; margin-top: 5px;">Root Cause: Hallucinated Location</div>
                                 </div>
-                                <button class="btn btn-primary" style="font-size: 0.7rem; margin-top: 10px;">View Full Context</button>
+                                <button class="btn btn-primary" style="font-size: 0.7rem; margin-top: 10px;" onclick="handleAIAction('view_context', 'IIT Delhi hallu')">View Full Context</button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="widget w-third">
+                    <div class="widget w-third glass-card">
                         <h3 class="widget-title">Failure Taxonomy</h3>
                         <div style="margin-top: 1.5rem;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.8rem;">
@@ -162,12 +163,12 @@ $view = $_GET['view'] ?? 'models';
 
                 <?php elseif ($view == 'prompts'): ?>
                 <!-- Screen 8.2.2 — System Prompt Editor -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">Active System Prompt (Counselor Persona)</h3>
                         <div style="display: flex; gap: 10px;">
-                            <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; font-size: 0.75rem;">Shadow Test (10% Traffic)</button>
-                            <button class="btn btn-primary" style="font-size: 0.75rem;">Publish Version 4.8</button>
+                            <button class="btn btn-secondary" style="font-size: 0.75rem;" onclick="handleAIAction('shadow_test', 'v4.8')">Shadow Test (10% Traffic)</button>
+                            <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleAIAction('publish_prompt', 'v4.8')">Publish Version 4.8</button>
                         </div>
                     </div>
                     
@@ -217,7 +218,7 @@ Database Context: [COLLEGE_SEARCH_RESULTS]</textarea>
                 <?php elseif ($view == 'cache'): ?>
                 <!-- Screen 8.2.3 — Redis Cache Analytics -->
                 <div class="dashboard-grid">
-                    <div class="widget w-third">
+                    <div class="widget w-third glass-card">
                         <h3 class="widget-title">Response Cache Hit Rate</h3>
                         <div style="text-align: center; margin-top: 2rem;">
                             <div style="font-size: 3rem; font-weight: 700; color: var(--accent-primary);">68%</div>
@@ -229,7 +230,7 @@ Database Context: [COLLEGE_SEARCH_RESULTS]</textarea>
                         </div>
                     </div>
 
-                    <div class="widget w-two-thirds">
+                    <div class="widget w-two-thirds glass-card">
                         <h3 class="widget-title">Top 20 Cached Query Patterns</h3>
                         <table class="data-table" style="margin-top: 1rem;">
                             <thead>
@@ -245,17 +246,17 @@ Database Context: [COLLEGE_SEARCH_RESULTS]</textarea>
                                     <td><code>/^engineering.*maharashtra.*fees$/i</code></td>
                                     <td><strong>4,240</strong></td>
                                     <td>Just now</td>
-                                    <td><button class="action-btn" style="color: var(--danger);"><i class="fas fa-trash"></i></button></td>
+                                    <td><button class="action-btn" style="color: var(--danger);" onclick="handleAIAction('purge_pattern', 'engineering')"><i class="fas fa-trash"></i></button></td>
                                 </tr>
                                 <tr>
                                     <td><code>/^mba.*cat.*percentile.*pune$/i</code></td>
                                     <td><strong>1,822</strong></td>
                                     <td>2m ago</td>
-                                    <td><button class="action-btn"><i class="fas fa-eye"></i></button></td>
+                                    <td><button class="action-btn" onclick="handleAIAction('view_pattern', 'mba')"><i class="fas fa-eye"></i></button></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <button class="btn" style="width: 100%; background: var(--danger); color: white; margin-top: 1.5rem; font-size: 0.8rem;">Purge Entire AI Cache Namespace</button>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 1.5rem; font-size: 0.8rem;" onclick="handleAIAction('purge_all_cache', 'all')">Purge Entire AI Cache Namespace</button>
                     </div>
                 </div>
                 <?php endif; ?>
@@ -278,6 +279,40 @@ Database Context: [COLLEGE_SEARCH_RESULTS]</textarea>
                 },
                 options: { responsive: true, plugins: { legend: { labels: { color: '#94a3b8' } } }, scales: { y: { beginAtZero: true, max: 100 } } }
             });
+        }
+    </script>
+    <script>
+        async function handleAIAction(action, target) {
+            Swal.fire({
+                title: 'AI Orchestration',
+                text: 'Interfacing with Ollama & Vector Store...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            try {
+                const response = await fetch('admin_api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target, module: 'ai_ops' })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: result.message });
+                }
+            } catch (error) {
+                console.error("AI API Error:", error);
+                Swal.fire({ icon: 'error', title: 'Connection Failure', text: 'AI Inference server or Admin API is unreachable.' });
+            }
         }
     </script>
 </body>

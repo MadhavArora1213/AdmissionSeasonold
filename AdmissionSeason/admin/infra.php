@@ -22,6 +22,7 @@ $dashboards = [
     <title>Infrastructure Observability | EduSearch Admin</title>
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .infra-tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
         .inf-tab { padding: 10px 20px; cursor: pointer; color: var(--text-secondary); border-bottom: 2px solid transparent; }
@@ -60,7 +61,7 @@ $dashboards = [
                 <?php if ($view == 'dashboards'): ?>
                 <!-- Screen 6.2.1 — Grafana Dashboard Hub -->
                 <div class="dashboard-grid">
-                    <div class="widget w-third db-selector">
+                    <div class="widget w-third db-selector glass-card">
                         <h3 class="widget-title" style="margin-bottom: 1rem;">System Dashboards</h3>
                         <?php foreach($dashboards as $id => $name): ?>
                             <a href="?view=dashboards&db=<?php echo $id; ?>" style="text-decoration: none; color: inherit;">
@@ -85,10 +86,10 @@ $dashboards = [
                         </div>
                     </div>
 
-                    <div class="widget w-two-thirds">
+                    <div class="widget w-two-thirds glass-card">
                         <div class="widget-header">
                             <h3 class="widget-title"><?php echo $dashboards[$dashboard_id]; ?></h3>
-                            <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; font-size: 0.75rem;"><i class="fas fa-external-link-alt"></i> Open in Grafana</button>
+                            <button class="btn btn-secondary" style="font-size: 0.75rem;" onclick="handleInfraAction('open_grafana', '<?php echo $dashboards[$dashboard_id]; ?>')"><i class="fas fa-external-link-alt"></i> Open in Grafana</button>
                         </div>
                         <div class="grafana-embed">
                             <div style="text-align: center;">
@@ -102,7 +103,7 @@ $dashboards = [
 
                 <?php elseif ($view == 'sentry'): ?>
                 <!-- Screen 6.2.2 — Sentry Error Centre -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">Real-time Application Exceptions</h3>
                         <div style="display: flex; gap: 10px;">
@@ -125,9 +126,9 @@ $dashboards = [
                             ConnectionTimeout: Connection request timed out after 5000ms. Max pool size (20) reached.
                         </div>
                         <div style="display: flex; gap: 10px;">
-                            <button class="btn btn-primary" style="font-size: 0.75rem;">Assign to Developer</button>
-                            <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; font-size: 0.75rem;">Mark as Resolved</button>
-                            <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; font-size: 0.75rem;">View Stacktrace</button>
+                            <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleInfraAction('assign_dev', 'PostgreSQLConnectionError')">Assign to Developer</button>
+                            <button class="btn btn-secondary" style="font-size: 0.75rem;" onclick="handleInfraAction('resolve_error', 'PostgreSQLConnectionError')">Mark as Resolved</button>
+                            <button class="btn btn-secondary" style="font-size: 0.75rem;" onclick="handleInfraAction('view_stacktrace', 'PostgreSQLConnectionError')">View Stacktrace</button>
                         </div>
                     </div>
 
@@ -149,5 +150,39 @@ $dashboards = [
             </div>
         </main>
     </div>
+    <script>
+        async function handleInfraAction(action, target) {
+            Swal.fire({
+                title: 'Processing Request',
+                text: 'Communicating with the infrastructure layer...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            try {
+                const response = await fetch('admin_api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target, module: 'infrastructure' })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: result.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: result.message });
+                }
+            } catch (error) {
+                console.error("API Error:", error);
+                Swal.fire({ icon: 'error', title: 'Connection Error', text: 'Could not reach the administration server.' });
+            }
+        }
+    </script>
 </body>
 </html>

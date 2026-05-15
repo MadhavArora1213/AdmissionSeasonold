@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/index.php</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/colleges.php</loc><priority>0.9</priority><changefreq>daily</changefreq></url>
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/exams.php</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/rankings.php</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/scholarships.php</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/study-abroad.php</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/ai-counselor.php</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/rank-predictor.php</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/roi-calculator.php</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/for-colleges.php</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/login.php</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/privacy.php</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
+  <url><loc>http://localhost/AdmissionSeasonold/frontend/terms.php</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
+</urlset>

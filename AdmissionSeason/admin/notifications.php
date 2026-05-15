@@ -12,6 +12,7 @@ $view = $_GET['view'] ?? 'email';
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .not-tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; overflow-x: auto; padding-bottom: 5px; }
         .not-tab { padding: 10px 20px; cursor: pointer; color: var(--text-secondary); border-bottom: 2px solid transparent; white-space: nowrap; }
@@ -53,10 +54,10 @@ $view = $_GET['view'] ?? 'email';
 
                 <?php if ($view == 'email'): ?>
                 <!-- Screen 11.1.1 — Email Template Library -->
-                <div class="widget w-full">
+                <div class="widget w-full glass-card">
                     <div class="widget-header">
                         <h3 class="widget-title">Brevo Transactional Templates</h3>
-                        <button class="btn btn-primary" style="font-size: 0.75rem;">+ New Template</button>
+                        <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleNotifyAction('new_template', 'Email')">+ New Template</button>
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1.5rem;">
                         <div class="template-card">
@@ -71,8 +72,8 @@ $view = $_GET['view'] ?? 'email';
                                 </div>
                             </div>
                             <div style="display: flex; gap: 10px;">
-                                <button class="btn btn-primary" style="font-size: 0.7rem;">Edit HTML</button>
-                                <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; font-size: 0.7rem;">Subject A/B Test</button>
+                                <button class="btn btn-primary" style="font-size: 0.7rem;" onclick="handleNotifyAction('edit_html', 'Lead Alert to College')">Edit HTML</button>
+                                <button class="btn btn-secondary" style="font-size: 0.7rem;" onclick="handleNotifyAction('ab_test', 'Lead Alert to College')">Subject A/B Test</button>
                             </div>
                         </div>
 
@@ -88,8 +89,8 @@ $view = $_GET['view'] ?? 'email';
                                 </div>
                             </div>
                             <div style="display: flex; gap: 10px;">
-                                <button class="btn btn-primary" style="font-size: 0.7rem;">Edit HTML</button>
-                                <button class="btn" style="background: var(--sidebar-bg); border: 1px solid var(--border-color); color: white; font-size: 0.7rem;">A/B Test Winner</button>
+                                <button class="btn btn-primary" style="font-size: 0.7rem;" onclick="handleNotifyAction('edit_html', 'Scholarship Deadline Reminder')">Edit HTML</button>
+                                <button class="btn btn-secondary" style="font-size: 0.7rem;" onclick="handleNotifyAction('ab_test', 'Scholarship Deadline Reminder')">A/B Test Winner</button>
                             </div>
                         </div>
                     </div>
@@ -98,7 +99,7 @@ $view = $_GET['view'] ?? 'email';
                 <?php elseif ($view == 'sms'): ?>
                 <!-- Screen 11.1.2 — SMS Content Manager (DLT Focused) -->
                 <div class="dashboard-grid">
-                    <div class="widget w-two-thirds">
+                    <div class="widget w-two-thirds glass-card">
                         <div class="widget-header">
                             <h3 class="widget-title">TRAI DLT Registered SMS Templates</h3>
                         </div>
@@ -130,7 +131,7 @@ $view = $_GET['view'] ?? 'email';
                             </tbody>
                         </table>
                     </div>
-                    <div class="widget w-third">
+                    <div class="widget w-third glass-card">
                         <h3 class="widget-title">Mobile Preview</h3>
                         <div class="sms-preview">
                             <strong>EDUSRCH</strong><br>
@@ -146,10 +147,10 @@ $view = $_GET['view'] ?? 'email';
                 <?php elseif ($view == 'campaigns'): ?>
                 <!-- Screen 11.1.3 — Campaign Scheduler -->
                 <div class="dashboard-grid">
-                    <div class="widget w-full">
+                    <div class="widget w-full glass-card">
                         <div class="widget-header">
                             <h3 class="widget-title">Targeted Outreach Campaigns</h3>
-                            <button class="btn btn-primary" style="font-size: 0.75rem;">+ New Campaign</button>
+                            <button class="btn btn-primary" style="font-size: 0.75rem;" onclick="handleNotifyAction('new_campaign', 'targeted')">+ New Campaign</button>
                         </div>
                         <table class="data-table">
                             <thead>
@@ -187,7 +188,7 @@ $view = $_GET['view'] ?? 'email';
                 <?php elseif ($view == 'whatsapp'): ?>
                 <!-- Screen 11.1.4 — WhatsApp Bot Manager -->
                 <div class="dashboard-grid">
-                    <div class="widget w-third" style="text-align: center;">
+                    <div class="widget w-third glass-card" style="text-align: center;">
                         <h3 class="widget-title">Baileys Bot Status</h3>
                         <div style="margin: 1.5rem 0;">
                             <div style="color: var(--warning); font-weight: 700; font-size: 1.1rem;"><i class="fas fa-link-slash"></i> DISCONNECTED</div>
@@ -198,7 +199,7 @@ $view = $_GET['view'] ?? 'email';
                         </div>
                     </div>
                     
-                    <div class="widget w-two-thirds">
+                    <div class="widget w-two-thirds glass-card">
                         <h3 class="widget-title">Conversation Flow Nodes</h3>
                         <div style="margin-top: 2rem; display: flex; flex-direction: column; align-items: center;">
                             <div class="flow-node" style="width: 200px; border-color: var(--accent-primary);">
@@ -227,5 +228,43 @@ $view = $_GET['view'] ?? 'email';
             </div>
         </main>
     </div>
+    <script>
+        async function handleNotifyAction(action, target) {
+            let config = {
+                title: 'Notification Centre',
+                text: '',
+                icon: 'info',
+                showConfirmButton: false,
+                timer: 2000,
+                background: 'rgba(15, 23, 42, 0.95)',
+                color: '#fff',
+                backdrop: `rgba(0,0,0,0.4) blur(4px)`
+            };
+
+            if (action === 'new_template') config.text = 'Initializing ' + target + ' Template Designer...';
+            else if (action === 'edit_html') config.text = 'Opening Brevo HTML Editor for "' + target + '"...';
+            else if (action === 'ab_test') config.text = 'Starting A/B test configuration for "' + target + '"...';
+            else if (action === 'new_campaign') { config.text = 'Launching Campaign Creation Wizard...'; config.icon = 'success'; }
+            
+            Swal.fire(config);
+
+            // Backend Integration
+            /*
+            try {
+                const response = await fetch('/api/admin/notifications', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, target })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    Swal.fire({ icon: 'success', title: 'Success', text: result.message, timer: 1500 });
+                }
+            } catch (error) {
+                console.error("Backend Error:", error);
+            }
+            */
+        }
+    </script>
 </body>
 </html>
