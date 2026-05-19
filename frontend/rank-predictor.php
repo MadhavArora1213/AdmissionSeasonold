@@ -45,7 +45,7 @@ $page_title = "JEE / NEET Rank Predictor 2026 | AdmissionSeason";
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="antialiased bg-[var(--bg-primary)] text-white font-['Inter']">
+<body class="antialiased bg-[var(--bg-primary)] text-slate-900 font-['Inter']">
 <?php include 'includes/navbar.php'; ?>
 
 <div class="min-h-screen pt-16">
@@ -57,7 +57,7 @@ $page_title = "JEE / NEET Rank Predictor 2026 | AdmissionSeason";
       <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-widest">
         <i data-lucide="trending-up" class="w-3.5 h-3.5"></i> AI Rank Predictor 2026
       </div>
-      <h1 class="text-3xl sm:text-5xl font-bold text-white mb-4 tracking-tight">
+      <h1 class="text-3xl sm:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
         Predict Your Rank <span class="gradient-text">Instantly</span>
       </h1>
       <p class="text-[var(--text-secondary)] text-base sm:text-lg max-w-xl mx-auto">
@@ -72,7 +72,7 @@ $page_title = "JEE / NEET Rank Predictor 2026 | AdmissionSeason";
       <!-- ── Input Panel ── -->
       <div class="lg:col-span-2 space-y-6">
         <div class="glass rounded-2xl border border-[var(--border)] p-6">
-          <h2 class="font-bold text-white text-lg mb-5 flex items-center gap-2">
+          <h2 class="font-bold text-slate-900 text-lg mb-5 flex items-center gap-2">
             <i data-lucide="sliders-horizontal" class="w-5 h-5 text-indigo-400"></i> Your Details
           </h2>
 
@@ -93,7 +93,7 @@ $page_title = "JEE / NEET Rank Predictor 2026 | AdmissionSeason";
               <button onclick="selectExam('<?= $ex['id'] ?>', <?= $ex['max'] ?>)"
                       id="btn_<?= $ex['id'] ?>"
                       class="exam-btn flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium border transition-all
-                             border-[var(--border)] text-[var(--text-secondary)] hover:border-indigo-500/50 hover:text-white bg-[var(--bg-secondary)]">
+                             border-[var(--border)] text-[var(--text-secondary)] hover:border-indigo-500/50 hover:text-slate-900 bg-[var(--bg-secondary)]">
                 <span class="text-lg"><?= $ex['icon'] ?></span> <?= $ex['label'] ?>
               </button>
               <?php endforeach; ?>
@@ -118,7 +118,7 @@ $page_title = "JEE / NEET Rank Predictor 2026 | AdmissionSeason";
           <div class="mb-5">
             <label class="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-2 block">Category</label>
             <div class="relative">
-              <select id="categorySelect" class="w-full appearance-none px-4 py-2.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white outline-none focus:border-indigo-500/60 cursor-pointer">
+              <select id="categorySelect" class="w-full appearance-none px-4 py-2.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 outline-none focus:border-indigo-500/60 cursor-pointer">
                 <option value="general">General / EWS</option>
                 <option value="obc">OBC-NCL</option>
                 <option value="sc">SC</option>
@@ -158,7 +158,7 @@ $page_title = "JEE / NEET Rank Predictor 2026 | AdmissionSeason";
             <div class="w-20 h-20 mx-auto rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-5">
               <i data-lucide="bar-chart-3" class="w-10 h-10 text-indigo-400 opacity-50"></i>
             </div>
-            <h3 class="font-bold text-white text-lg mb-2">Select exam & enter score</h3>
+            <h3 class="font-bold text-slate-900 text-lg mb-2">Select exam & enter score</h3>
             <p class="text-sm text-[var(--text-secondary)] max-w-xs mx-auto">Click "Predict My Rank" to see your predicted rank, percentile, and eligible colleges.</p>
           </div>
         </div>
@@ -173,7 +173,7 @@ $page_title = "JEE / NEET Rank Predictor 2026 | AdmissionSeason";
               <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-6">
                 <div class="text-center">
                   <div class="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-1">Predicted Rank</div>
-                  <div id="rankResult" class="text-5xl font-black text-white count-anim">—</div>
+                  <div id="rankResult" class="text-5xl font-black text-slate-900 count-anim">—</div>
                   <div class="text-xs text-indigo-400 font-medium mt-1" id="examLabel">—</div>
                 </div>
                 <div class="flex-1 grid grid-cols-3 gap-4">
@@ -208,7 +208,7 @@ $page_title = "JEE / NEET Rank Predictor 2026 | AdmissionSeason";
           <!-- Eligible Colleges -->
           <div class="glass rounded-2xl border border-[var(--border)] overflow-hidden">
             <div class="px-6 py-4 border-b border-[var(--border)] flex items-center justify-between">
-              <h3 class="font-bold text-white flex items-center gap-2">
+              <h3 class="font-bold text-slate-900 flex items-center gap-2">
                 <i data-lucide="university" class="w-5 h-5 text-indigo-400"></i>
                 Colleges You Can Get Into
               </h3>
@@ -335,7 +335,7 @@ function renderColleges(rank, exam) {
         <span class="text-${b.color}-400 font-bold text-xs">${i+1}</span>
       </div>
       <div class="flex-1">
-        <div class="text-sm text-[var(--text-secondary)]">${b.desc}</div>
+        <div class="text-sm text-slate-900">${b.desc}</div>
       </div>
       <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-${b.color}-500/10 text-${b.color}-400 border border-${b.color}-500/20 uppercase tracking-wider">${b.tag}</span>
     </div>

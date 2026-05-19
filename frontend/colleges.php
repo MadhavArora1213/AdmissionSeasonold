@@ -77,7 +77,7 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="antialiased bg-[var(--bg-primary)] text-white font-['Inter']">
+<body class="antialiased bg-[var(--bg-primary)] text-slate-900 font-['Inter']">
 
 <?php include 'includes/navbar.php'; ?>
 
@@ -85,7 +85,7 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
   <!-- Header & Filters -->
   <div class="bg-gradient-to-b from-[var(--bg-secondary)] to-[var(--bg-primary)] border-b border-[var(--border)]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-      <h1 class="text-3xl font-bold text-white mb-2">
+      <h1 class="text-3xl font-bold text-slate-900 mb-2">
         Colleges in India <span class="text-[var(--text-muted)] text-xl font-normal">(<?= number_format($total) ?> results)</span>
       </h1>
       <p class="text-[var(--text-secondary)] mb-6">
@@ -102,14 +102,14 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
               name="q"
               value="<?= htmlspecialchars($search) ?>"
               placeholder="Search college name or city..."
-              class="w-full pl-10 pr-4 py-3 bg-[var(--bg-card)] border border-[var(--border)] rounded-xl text-sm text-white placeholder-[var(--text-muted)] outline-none focus:border-indigo-500/60 transition-all"
+              class="w-full pl-10 pr-4 py-3 bg-[var(--bg-card)] border border-[var(--border)] rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-[var(--accent)]/60 transition-all"
             />
           </div>
           
           <button
             type="button"
             onclick="document.getElementById('filterPanel').classList.toggle('hidden')"
-            class="flex items-center gap-2 px-4 py-3 text-sm rounded-xl border transition-all glass border-[var(--border)] text-[var(--text-secondary)] hover:text-white"
+            class="flex items-center gap-2 px-4 py-3 text-sm rounded-xl border transition-all glass border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--accent)]"
           >
             <i data-lucide="filter" class="w-4 h-4"></i>
             Filters
@@ -125,7 +125,7 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
             <select
               name="sort"
               onchange="this.form.submit()"
-              class="appearance-none pl-4 pr-10 py-3 bg-[var(--bg-card)] border border-[var(--border)] rounded-xl text-sm text-white outline-none focus:border-indigo-500/60 cursor-pointer"
+              class="appearance-none pl-4 pr-10 py-3 bg-[var(--bg-card)] border border-[var(--border)] rounded-xl text-sm text-slate-900 outline-none focus:border-[var(--accent)]/60 cursor-pointer"
             >
               <option value="nirf" <?= $sort == 'nirf' ? 'selected' : '' ?>>NIRF Rank</option>
               <option value="rating" <?= $sort == 'rating' ? 'selected' : '' ?>>Rating</option>
@@ -140,7 +140,7 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
         <div id="filterPanel" class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 glass rounded-xl border border-[var(--border)] <?= $active_count > 0 ? '' : 'hidden' ?>">
           <div>
             <label class="text-xs text-[var(--text-muted)] mb-1 block">State</label>
-            <select name="state" onchange="this.form.submit()" class="w-full px-3 py-2 bg-[var(--bg-card)] border border-[var(--border)] rounded-lg text-sm text-white outline-none focus:border-indigo-500/60">
+            <select name="state" onchange="this.form.submit()" class="w-full px-3 py-2 bg-[var(--bg-card)] border border-[var(--border)] rounded-lg text-sm text-slate-900 outline-none focus:border-[var(--accent)]/60">
               <option value="">All States</option>
               <?php foreach ($states as $s): if(!$s) continue; ?>
                 <option value="<?= htmlspecialchars($s) ?>" <?= $state === $s ? 'selected' : '' ?>><?= htmlspecialchars($s) ?></option>
@@ -149,7 +149,7 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
           </div>
           <div>
             <label class="text-xs text-[var(--text-muted)] mb-1 block">Type</label>
-            <select name="type" onchange="this.form.submit()" class="w-full px-3 py-2 bg-[var(--bg-card)] border border-[var(--border)] rounded-lg text-sm text-white outline-none focus:border-indigo-500/60">
+            <select name="type" onchange="this.form.submit()" class="w-full px-3 py-2 bg-[var(--bg-card)] border border-[var(--border)] rounded-lg text-sm text-slate-900 outline-none focus:border-[var(--accent)]/60">
               <option value="">All Types</option>
               <option value="GOVERNMENT" <?= strcasecmp($type, 'GOVERNMENT')===0 ? 'selected' : '' ?>>Government</option>
               <option value="PRIVATE" <?= strcasecmp($type, 'PRIVATE')===0 ? 'selected' : '' ?>>Private</option>
@@ -158,7 +158,7 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
           </div>
           <div>
             <label class="text-xs text-[var(--text-muted)] mb-1 block">Stream</label>
-            <select name="stream" onchange="this.form.submit()" class="w-full px-3 py-2 bg-[var(--bg-card)] border border-[var(--border)] rounded-lg text-sm text-white outline-none focus:border-indigo-500/60">
+            <select name="stream" onchange="this.form.submit()" class="w-full px-3 py-2 bg-[var(--bg-card)] border border-[var(--border)] rounded-lg text-sm text-slate-900 outline-none focus:border-[var(--accent)]/60">
               <option value="">All Streams</option>
               <option value="engineering" <?= $stream === 'engineering' ? 'selected' : '' ?>>Engineering</option>
               <option value="medical" <?= $stream === 'medical' ? 'selected' : '' ?>>Medical</option>
@@ -198,7 +198,7 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
             <a href="?q=<?= urlencode($search) ?>&state=<?= urlencode($state) ?>&type=<?= urlencode($type) ?>&sort=<?= urlencode($sort) ?>"><i data-lucide="x" class="w-3 h-3"></i></a>
           </span>
         <?php endif; ?>
-        <a href="?" class="text-xs text-[var(--text-muted)] hover:text-white transition-colors mt-1.5 ml-1">Clear all</a>
+        <a href="?" class="text-xs text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors mt-1.5 ml-1">Clear all</a>
       </div>
       <?php endif; ?>
     </div>
@@ -209,7 +209,7 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
     <?php if (empty($colleges)): ?>
       <div class="text-center py-20 text-[var(--text-secondary)]">
         <div class="text-5xl mb-4">🔍</div>
-        <p class="text-lg font-medium text-white mb-2">No colleges found</p>
+        <p class="text-lg font-medium text-slate-900 mb-2">No colleges found</p>
         <p class="text-sm">Try adjusting your filters or search term</p>
         <a href="?" class="inline-block mt-4 text-indigo-400 hover:text-indigo-300 text-sm">Clear Filters</a>
       </div>
@@ -236,7 +236,7 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
             <!-- Main Info -->
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap items-start gap-2 mb-1">
-                <h2 class="text-base font-bold text-white group-hover:text-indigo-300 transition-colors line-clamp-2">
+                <h2 class="text-base font-bold text-slate-900 group-hover:text-[var(--accent)] transition-colors line-clamp-2">
                   <?= htmlspecialchars($c['name']) ?>
                 </h2>
                 <?php if ($c['is_featured']): ?>
@@ -273,12 +273,12 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
             <!-- Stats -->
             <div class="flex sm:flex-col items-center sm:items-end gap-4 sm:gap-2 flex-shrink-0">
               <div class="text-right">
-                <div class="text-sm font-bold text-white"><?= $feeStr ?></div>
+                <div class="text-sm font-bold text-slate-900"><?= $feeStr ?></div>
                 <div class="text-xs text-[var(--text-muted)]">Avg. Fees</div>
               </div>
               <div class="flex items-center gap-1">
                 <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
-                <span class="text-sm font-bold text-white"><?= number_format($rating, 1) ?></span>
+                <span class="text-sm font-bold text-slate-900"><?= number_format($rating, 1) ?></span>
                 <span class="text-xs text-[var(--text-muted)]">(<?= number_format($reviews) ?>)</span>
               </div>
               <div class="hidden sm:flex items-center gap-1 text-indigo-400 text-sm group-hover:gap-2 transition-all mt-2">
@@ -298,14 +298,14 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
           $base_url = '?' . http_build_query($url_params) . '&page=';
 
           if ($page > 1) {
-            echo '<a href="'.$base_url.($page-1).'" class="w-10 h-10 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text-secondary)] hover:text-white hover:bg-white/5 transition-all"><i data-lucide="chevron-left" class="w-4 h-4"></i></a>';
+            echo '<a href="'.$base_url.($page-1).'" class="w-10 h-10 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-all"><i data-lucide="chevron-left" class="w-4 h-4"></i></a>';
           }
 
           $start = max(1, $page - 2);
           $end = min($total_pages, $page + 2);
 
           if ($start > 1) {
-            echo '<a href="'.$base_url.'1" class="w-10 h-10 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text-secondary)] hover:text-white hover:bg-white/5 transition-all">1</a>';
+            echo '<a href="'.$base_url.'1" class="w-10 h-10 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-all">1</a>';
             if ($start > 2) echo '<span class="text-[var(--text-muted)]">...</span>';
           }
 
@@ -313,17 +313,17 @@ $page_title = ($search ? htmlspecialchars($search) . " — " : "") . "Colleges i
             if ($i == $page) {
               echo '<span class="w-10 h-10 flex items-center justify-center rounded-xl bg-indigo-500 text-white font-medium">'.$i.'</span>';
             } else {
-              echo '<a href="'.$base_url.$i.'" class="w-10 h-10 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text-secondary)] hover:text-white hover:bg-white/5 transition-all">'.$i.'</a>';
+              echo '<a href="'.$base_url.$i.'" class="w-10 h-10 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-all">'.$i.'</a>';
             }
           }
 
           if ($end < $total_pages) {
             if ($end < $total_pages - 1) echo '<span class="text-[var(--text-muted)]">...</span>';
-            echo '<a href="'.$base_url.$total_pages.'" class="w-10 h-10 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text-secondary)] hover:text-white hover:bg-white/5 transition-all">'.$total_pages.'</a>';
+            echo '<a href="'.$base_url.$total_pages.'" class="w-10 h-10 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-all">'.$total_pages.'</a>';
           }
 
           if ($page < $total_pages) {
-            echo '<a href="'.$base_url.($page+1).'" class="w-10 h-10 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text-secondary)] hover:text-white hover:bg-white/5 transition-all"><i data-lucide="chevron-right" class="w-4 h-4"></i></a>';
+            echo '<a href="'.$base_url.($page+1).'" class="w-10 h-10 flex items-center justify-center rounded-xl glass border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-all"><i data-lucide="chevron-right" class="w-4 h-4"></i></a>';
           }
           ?>
         </div>

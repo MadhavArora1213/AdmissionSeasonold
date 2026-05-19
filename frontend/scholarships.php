@@ -51,7 +51,7 @@ sort($cats);
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="antialiased bg-[var(--bg-primary)] text-white font-['Inter']">
+<body class="antialiased bg-[var(--bg-primary)] text-slate-900 font-['Inter']">
 <?php include 'includes/navbar.php'; ?>
 
 <div class="min-h-screen pt-16">
@@ -65,21 +65,21 @@ sort($cats);
                 </div>
                 <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Scholarship Finder</span>
             </div>
-            <h1 class="text-3xl sm:text-4xl font-bold text-white mb-3">Find Scholarships for Your Studies</h1>
+            <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">Find Scholarships for Your Studies</h1>
             <p class="text-[var(--text-secondary)] max-w-2xl mb-8">Government, private, and institutional scholarships — all in one place. Don't let money stop your dreams.</p>
 
             <form method="GET" action="scholarships.php" class="flex flex-col sm:flex-row gap-3">
                 <div class="relative flex-1">
                     <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]"></i>
-                    <input type="text" name="q" value="<?= htmlspecialchars($search) ?>" placeholder="Search scholarships..." class="w-full pl-11 pr-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white placeholder-[var(--text-muted)] outline-none focus:border-indigo-500/60 transition-all">
+                    <input type="text" name="q" value="<?= htmlspecialchars($search) ?>" placeholder="Search scholarships..." class="w-full pl-11 pr-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-indigo-500/60 transition-all">
                 </div>
-                <select name="state" onchange="this.form.submit()" class="sm:w-44 appearance-none px-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white outline-none focus:border-indigo-500/60 cursor-pointer">
+                <select name="state" onchange="this.form.submit()" class="sm:w-44 appearance-none px-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 outline-none focus:border-indigo-500/60 cursor-pointer">
                     <option value="">All States</option>
                     <?php foreach ($states as $s): ?>
                         <option value="<?= htmlspecialchars($s) ?>" <?= $state===$s?'selected':'' ?>><?= htmlspecialchars($s) ?></option>
                     <?php endforeach; ?>
                 </select>
-                <select name="cat" onchange="this.form.submit()" class="sm:w-44 appearance-none px-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white outline-none focus:border-indigo-500/60 cursor-pointer">
+                <select name="cat" onchange="this.form.submit()" class="sm:w-44 appearance-none px-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 outline-none focus:border-indigo-500/60 cursor-pointer">
                     <option value="">All Categories</option>
                     <?php foreach ($cats as $c): ?>
                         <option value="<?= htmlspecialchars($c) ?>" <?= $cat===$c?'selected':'' ?>><?= htmlspecialchars($c) ?></option>
@@ -94,7 +94,7 @@ sort($cats);
         <?php if (empty($scholarships)): ?>
             <div class="text-center py-20 border border-dashed border-[var(--border)] rounded-3xl">
                 <i data-lucide="award" class="w-12 h-12 mx-auto mb-4 text-[var(--text-muted)] opacity-30"></i>
-                <h3 class="text-lg font-bold text-white mb-2">No scholarships found</h3>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">No scholarships found</h3>
                 <p class="text-sm text-[var(--text-secondary)] mb-6">Try adjusting your filters or check back later.</p>
                 <a href="scholarships.php" class="btn-primary inline-flex">Clear Filters</a>
             </div>
@@ -115,7 +115,7 @@ sort($cats);
                             <?php endif; ?>
                         </div>
 
-                        <h2 class="text-base font-bold text-white group-hover:text-emerald-400 transition-colors mb-1"><?= htmlspecialchars($s['name']) ?></h2>
+                        <h2 class="text-base font-bold text-slate-900 group-hover:text-emerald-600 transition-colors mb-1"><?= htmlspecialchars($s['name']) ?></h2>
                         <p class="text-xs text-[var(--text-secondary)] mb-4"><?= htmlspecialchars($s['provider_name']) ?></p>
 
                         <div class="space-y-2 text-sm mt-auto">

@@ -14,7 +14,7 @@
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="antialiased bg-[var(--bg-primary)] text-white font-['Inter']">
+<body class="antialiased bg-[var(--bg-primary)] text-slate-900 font-['Inter']">
 <?php include 'includes/navbar.php'; ?>
 
 <div class="min-h-screen pt-16">
@@ -29,14 +29,14 @@
         </div>
         <span class="text-xs font-bold uppercase tracking-widest text-purple-400">AdmissionSeason Blog</span>
       </div>
-      <h1 class="text-3xl sm:text-4xl font-bold text-white mb-3">Admission Guides & Expert Insights</h1>
+      <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">Admission Guides & Expert Insights</h1>
       <p class="text-[var(--text-secondary)] max-w-2xl mb-8">JEE tips, NEET strategies, scholarship guides, and college reviews — written by toppers and counselors.</p>
 
       <!-- Search -->
       <div class="relative max-w-lg">
         <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]"></i>
         <input type="text" id="blogSearch" oninput="filterPosts()" placeholder="Search articles..."
-          class="w-full pl-11 pr-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white placeholder-[var(--text-muted)] outline-none focus:border-purple-500/60 transition-all">
+          class="w-full pl-11 pr-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-purple-500/60 transition-all">
       </div>
     </div>
   </div>
@@ -48,7 +48,7 @@
       <?php $cats = ['All','JEE','NEET','CAT','Scholarships','Study Abroad','College Reviews','Career Guide'];
       foreach ($cats as $i => $c): ?>
       <button onclick="filterCat('<?= $c ?>')" data-cat="<?= $c ?>"
-        class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold border transition-all <?= $i===0 ? 'bg-purple-500/20 border-purple-500/40 text-purple-400' : 'border-[var(--border)] text-[var(--text-secondary)] hover:border-purple-500/30 hover:text-white' ?>">
+        class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold border transition-all <?= $i===0 ? 'bg-purple-500/20 border-purple-500/40 text-purple-400' : 'border-[var(--border)] text-[var(--text-secondary)] hover:border-purple-500/30 hover:text-slate-900' ?>">
         <?= $c ?>
       </button>
       <?php endforeach; ?>
@@ -80,7 +80,7 @@
             <span class="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full border <?= $p['tag'] ?>"><?= $p['cat'] ?></span>
             <span class="text-[10px] text-[var(--text-muted)]"><?= $p['read'] ?> read</span>
           </div>
-          <h2 class="font-bold text-white text-sm mb-2 group-hover:text-purple-400 transition-colors leading-snug flex-1">
+          <h2 class="font-bold text-slate-900 text-sm mb-2 group-hover:text-purple-400 transition-colors leading-snug flex-1">
             <?= htmlspecialchars($p['title']) ?>
           </h2>
           <p class="text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
@@ -108,11 +108,11 @@
     <!-- Newsletter CTA -->
     <div class="mt-14 glass rounded-3xl border border-purple-500/20 bg-purple-500/5 p-10 text-center">
       <i data-lucide="mail" class="w-10 h-10 mx-auto mb-4 text-purple-400"></i>
-      <h2 class="text-2xl font-bold text-white mb-2">Never Miss an Important Deadline</h2>
+      <h2 class="text-2xl font-bold text-slate-900 mb-2">Never Miss an Important Deadline</h2>
       <p class="text-[var(--text-secondary)] text-sm mb-6 max-w-md mx-auto">Get weekly exam alerts, scholarship deadlines, and admission tips delivered to your inbox.</p>
       <form class="flex gap-3 max-w-sm mx-auto" onsubmit="event.preventDefault(); this.innerHTML='<p class=\'text-emerald-400 font-medium\'>✅ Subscribed! Check your email.</p>'">
         <input type="email" placeholder="Your email address" required
-          class="flex-1 px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white placeholder-[var(--text-muted)] outline-none focus:border-purple-500/60 transition-all">
+          class="flex-1 px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-purple-500/60 transition-all">
         <button type="submit" class="btn-primary px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap">Subscribe</button>
       </form>
     </div>
@@ -129,7 +129,7 @@ function filterCat(cat) {
   document.querySelectorAll('.cat-btn').forEach(b => {
     const isActive = b.dataset.cat === cat;
     b.className = 'cat-btn px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ' +
-      (isActive ? 'bg-purple-500/20 border-purple-500/40 text-purple-400' : 'border-[var(--border)] text-[var(--text-secondary)] hover:border-purple-500/30 hover:text-white');
+      (isActive ? 'bg-purple-500/20 border-purple-500/40 text-purple-400' : 'border-[var(--border)] text-[var(--text-secondary)] hover:border-purple-500/30 hover:text-slate-900');
   });
   filterPosts();
 }

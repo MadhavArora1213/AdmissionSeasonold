@@ -7,113 +7,200 @@
     <title><?= $page_title ?></title>
     <meta name="description" content="Read AdmissionSeason's terms of service — rules, rights, and responsibilities for using our platform.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
         <?php include 'assets/css/style.css'; ?>
-        .prose h2 { @apply text-xl font-bold text-white mt-8 mb-3; }
-        .prose h3 { @apply text-base font-semibold text-white mt-5 mb-2; }
-        .prose p  { @apply text-[var(--text-secondary)] leading-relaxed mb-4 text-sm; }
-        .prose ul { @apply list-disc list-inside space-y-1.5 text-[var(--text-secondary)] text-sm mb-4 ml-2; }
-        .prose a  { @apply text-indigo-400 hover:underline; }
+        
+        .terms-content h2 { @apply text-2xl font-extrabold text-slate-900 mt-12 mb-4 scroll-mt-24 flex items-center gap-3; }
+        .terms-content h3 { @apply text-lg font-bold text-slate-800 mt-8 mb-3; }
+        .terms-content p  { @apply text-slate-600 leading-relaxed mb-5 text-base; }
+        .terms-content ul { @apply space-y-3 text-slate-600 text-base mb-6; }
+        .terms-content li { @apply flex items-start gap-3; }
+        .terms-content li::before { 
+            content: '→'; 
+            @apply text-amber-500 font-bold mt-0.5 flex-shrink-0; 
+        }
+        .terms-content strong { @apply text-slate-900 font-semibold; }
+        .terms-content a { @apply text-amber-600 font-medium hover:underline decoration-2 underline-offset-4; }
+        
+        .toc-link { @apply block py-2 text-sm text-slate-500 hover:text-amber-600 hover:translate-x-1 transition-all border-l-2 border-transparent pl-4; }
+        .toc-link.active { @apply text-amber-600 border-amber-500 font-semibold bg-amber-50/50; }
+
+        .warning-box { @apply p-6 bg-amber-50 border border-amber-200 rounded-2xl text-amber-800 text-sm leading-relaxed mb-8; }
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="antialiased bg-[var(--bg-primary)] text-white font-['Inter']">
+<body class="antialiased bg-[var(--bg-primary)] text-slate-900 font-['Inter']">
 <?php include 'includes/navbar.php'; ?>
 
 <div class="min-h-screen pt-16">
-    <div class="bg-gradient-to-b from-[var(--bg-secondary)] to-[var(--bg-primary)] border-b border-[var(--border)] py-12">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6">
+    <!-- Hero Header -->
+    <div class="bg-white border-b border-slate-200 py-16 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-amber-50/50 to-transparent pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
-                    <i data-lucide="file-text" class="w-5 h-5 text-amber-400"></i>
+                <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-xl shadow-amber-100">
+                    <i data-lucide="file-text" class="w-6 h-6 text-white"></i>
                 </div>
-                <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Legal</span>
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-amber-600">User Agreement</span>
+                    <h1 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mt-1">Terms of Service</h1>
+                </div>
             </div>
-            <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Terms of Service</h1>
-            <p class="text-[var(--text-muted)] text-sm">Last updated: <?= $updated ?></p>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 mt-6">
+                <p class="text-slate-500 text-sm flex items-center gap-2">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i> Last Revised: <?= $updated ?>
+                </p>
+                <span class="hidden sm:inline text-slate-300">•</span>
+                <p class="text-slate-500 text-sm flex items-center gap-2">
+                    <i data-lucide="eye" class="w-4 h-4"></i> Public Transparency
+                </p>
+            </div>
         </div>
     </div>
 
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
-        <div class="glass rounded-2xl border border-[var(--border)] p-8 prose">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <div class="flex flex-col lg:flex-row gap-12">
+            
+            <!-- Table of Contents Sidebar -->
+            <aside class="lg:w-64 flex-shrink-0">
+                <div class="sticky top-24 space-y-8">
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4 px-4">Sections</h4>
+                        <nav class="space-y-1">
+                            <a href="#intro" class="toc-link active">Acceptance</a>
+                            <a href="#services" class="toc-link">1. Services</a>
+                            <a href="#accounts" class="toc-link">2. User Accounts</a>
+                            <a href="#conduct" class="toc-link">3. User Conduct</a>
+                            <a href="#accuracy" class="toc-link">4. Data Accuracy</a>
+                            <a href="#liability" class="toc-link">5. Liability</a>
+                            <a href="#legal" class="toc-link">6. Legal</a>
+                        </nav>
+                    </div>
+                    
+                    <div class="p-6 rounded-2xl bg-amber-50/30 border border-amber-100">
+                        <h5 class="font-bold text-slate-900 mb-2 flex items-center gap-2 text-sm">
+                            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
+                            Key Point
+                        </h5>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            By using this site, you agree to these rules. Please read carefully.
+                        </p>
+                        <a href="privacy.php" class="text-xs font-bold text-amber-700 hover:underline">View Privacy Policy →</a>
+                    </div>
+                </div>
+            </aside>
 
-            <p>Please read these Terms of Service ("Terms") carefully before using the AdmissionSeason platform. By accessing or using our service, you agree to be bound by these Terms.</p>
+            <!-- Main Content Area -->
+            <main class="flex-1 max-w-3xl terms-content">
+                
+                <section id="intro" class="mb-12">
+                    <div class="warning-box">
+                        <strong>Important:</strong> These Terms of Service constitute a legally binding agreement between you and AdmissionSeason Pvt. Ltd. If you do not agree to these terms, you must not access or use our services.
+                    </div>
+                    <p class="text-lg text-slate-700 font-medium leading-relaxed">
+                        Welcome to AdmissionSeason. These terms govern your use of our website, AI counseling tools, and rank prediction services.
+                    </p>
+                </section>
 
-            <h2>1. Acceptance of Terms</h2>
-            <p>By creating an account or using any part of AdmissionSeason, you confirm that you are at least 16 years old and agree to these Terms and our <a href="privacy.php">Privacy Policy</a>. If you disagree with any part, please discontinue use immediately.</p>
+                <hr class="border-slate-100 my-12">
 
-            <h2>2. Description of Service</h2>
-            <p>AdmissionSeason provides an online platform that helps students in India:</p>
-            <ul>
-                <li>Discover and compare colleges and courses</li>
-                <li>Access exam information, dates, and syllabus</li>
-                <li>Find scholarships and financial aid</li>
-                <li>Get AI-powered counseling and guidance</li>
-                <li>Submit applications to partner institutions</li>
-                <li>Calculate rank predictions and ROI for education</li>
-            </ul>
+                <section id="services">
+                    <h2><i data-lucide="layers" class="w-6 h-6 text-amber-500"></i> 1. Scope of Services</h2>
+                    <p>AdmissionSeason provides a comprehensive digital ecosystem for higher education discovery in India:</p>
+                    <ul>
+                        <li>AI-powered college matching and career counseling.</li>
+                        <li>Exam information, cutoff analysis, and rank prediction.</li>
+                        <li>Direct application processing for partner universities.</li>
+                        <li>Scholarship discovery and ROI calculators.</li>
+                    </ul>
+                </section>
 
-            <h2>3. User Accounts</h2>
-            <h3>3.1 Registration</h3>
-            <p>To access certain features, you must register with accurate, current information. You are responsible for maintaining the confidentiality of your credentials and all activities under your account.</p>
-            <h3>3.2 Account Termination</h3>
-            <p>We reserve the right to suspend or terminate accounts that violate these Terms, provide false information, or engage in fraudulent activity.</p>
+                <section id="accounts">
+                    <h2><i data-lucide="user-plus" class="w-6 h-6 text-amber-500"></i> 2. User Accounts</h2>
+                    <h3>2.1 Eligibility</h3>
+                    <p>You must be at least 16 years of age to create an account. Users under 16 must have explicit parental consent.</p>
+                    <h3>2.2 Responsibility</h3>
+                    <p>You are responsible for safeguarding your login credentials. Any activity occurring under your account is your legal responsibility. If you suspect a breach, notify us immediately.</p>
+                </section>
 
-            <h2>4. Acceptable Use</h2>
-            <p>You agree NOT to:</p>
-            <ul>
-                <li>Provide false academic credentials or misleading information</li>
-                <li>Spam, harass, or abuse other users or college representatives</li>
-                <li>Attempt to scrape, reverse-engineer, or copy our platform data</li>
-                <li>Use automated bots or scripts to access our services</li>
-                <li>Post reviews that are fake, paid, or defamatory</li>
-                <li>Violate any applicable Indian or international laws</li>
-            </ul>
+                <section id="conduct">
+                    <h2><i data-lucide="shield-alert" class="w-6 h-6 text-amber-500"></i> 3. Acceptable Use & Conduct</h2>
+                    <p>To maintain a high-quality community, you agree NOT to:</p>
+                    <ul>
+                        <li>Submit fraudulent academic scores or forged documents.</li>
+                        <li>Use automated tools to scrape college data or search results.</li>
+                        <li>Engage in any activity that interferes with platform performance.</li>
+                        <li>Post defamatory or commercially biased reviews.</li>
+                        <li>Impersonate college officials or AdmissionSeason representatives.</li>
+                    </ul>
+                </section>
 
-            <h2>5. College Information & Accuracy</h2>
-            <p>While we strive to keep college details, fees, seat counts, and exam dates accurate, this information may change. <strong class="text-white">Always verify critical information directly with the institution before making decisions.</strong> AdmissionSeason is not liable for decisions based on outdated or incorrect data.</p>
+                <section id="accuracy">
+                    <h2><i data-lucide="check-circle-2" class="w-6 h-6 text-amber-500"></i> 4. Information Accuracy Disclaimer</h2>
+                    <p>
+                        While we use advanced algorithms and official sources, <strong>college fees, admission dates, and seat availability</strong> are subject to change by the respective institutions. 
+                    </p>
+                    <p>
+                        AdmissionSeason provides information on an "as-is" basis. We strongly recommend students verify critical admission details directly with the university's official website before making financial commitments.
+                    </p>
+                </section>
 
-            <h2>6. Applications & Admissions</h2>
-            <p>Submitting an application through AdmissionSeason does not guarantee admission. Final admission decisions rest solely with the respective institution. We act as a facilitator and are not a party to any agreement between you and a college.</p>
+                <section id="liability">
+                    <h2><i data-lucide="scale" class="w-6 h-6 text-amber-500"></i> 5. Limitation of Liability</h2>
+                    <p>
+                        AdmissionSeason shall not be liable for any missed admission deadlines, application rejections, or loss of data. Our role is limited to being an information facilitator.
+                    </p>
+                    <p>
+                        Our aggregate liability for any claim arising out of these terms shall be limited to the total amount paid by you to AdmissionSeason (if any) during the preceding 6 months.
+                    </p>
+                </section>
 
-            <h2>7. AI Counselor Disclaimer</h2>
-            <p>Our AI Counselor provides guidance based on publicly available data and algorithms. It does not replace professional counseling. Recommendations are for informational purposes only and should not be the sole basis for major educational or financial decisions.</p>
+                <section id="legal">
+                    <h2><i data-lucide="gavel" class="w-6 h-6 text-amber-500"></i> 6. Governing Law & Jurisdiction</h2>
+                    <p>
+                        These Terms are governed by the laws of India. Any dispute arising out of your use of the platform shall be subject to the exclusive jurisdiction of the courts in <strong>New Delhi, India</strong>.
+                    </p>
+                </section>
 
-            <h2>8. Intellectual Property</h2>
-            <p>All content on AdmissionSeason — including text, design, logos, code, and data — is the property of AdmissionSeason Pvt. Ltd. and protected by copyright laws. You may not reproduce or distribute our content without written permission.</p>
-
-            <h2>9. Limitation of Liability</h2>
-            <p>AdmissionSeason shall not be liable for any indirect, incidental, or consequential damages arising from your use of the platform, including but not limited to loss of data, missed deadlines, or admission rejections. Our maximum liability to you shall not exceed the amount you paid us in the 12 months prior to the claim.</p>
-
-            <h2>10. Governing Law</h2>
-            <p>These Terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of courts in New Delhi, India.</p>
-
-            <h2>11. Changes to Terms</h2>
-            <p>We may update these Terms at any time. We will notify you of significant changes via email or platform notification. Continued use of the platform after changes constitutes acceptance of the updated Terms.</p>
-
-            <h2>12. Contact</h2>
-            <p>For legal inquiries or Terms-related questions:</p>
-            <ul>
-                <li>Email: <a href="mailto:legal@admissionseason.in">legal@admissionseason.in</a></li>
-                <li>Phone: +91 98765 43210</li>
-                <li>Address: AdmissionSeason Pvt. Ltd., New Delhi, India — 110001</li>
-            </ul>
-        </div>
-
-        <div class="mt-6 flex gap-4">
-            <a href="privacy.php" class="glass rounded-xl border border-[var(--border)] px-5 py-3 text-sm font-medium hover:bg-white/5 transition-colors flex items-center gap-2">
-                <i data-lucide="shield" class="w-4 h-4 text-indigo-400"></i> Privacy Policy
-            </a>
-            <a href="index.php" class="glass rounded-xl border border-[var(--border)] px-5 py-3 text-sm font-medium hover:bg-white/5 transition-colors flex items-center gap-2">
-                <i data-lucide="home" class="w-4 h-4"></i> Back to Home
-            </a>
+                <div class="mt-16 pt-12 border-t border-slate-100 flex flex-wrap gap-4">
+                    <a href="privacy.php" class="bg-white border border-slate-200 px-6 py-3 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2">
+                        <i data-lucide="shield" class="w-4 h-4 text-amber-600"></i> Read Privacy Policy
+                    </a>
+                    <a href="index.php" class="btn-primary px-8 py-3.5 rounded-xl text-sm font-bold text-white flex items-center gap-2">
+                        <i data-lucide="home" class="w-4 h-4"></i> Back to Homepage
+                    </a>
+                </div>
+            </main>
         </div>
     </div>
 </div>
 
 <?php include 'includes/footer.php'; ?>
-<script>lucide.createIcons();</script>
+<script>
+    lucide.createIcons();
+    
+    // Simple TOC scroll spy
+    window.addEventListener('scroll', () => {
+        let current = '';
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.toc-link');
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 120) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
 </body>
 </html>

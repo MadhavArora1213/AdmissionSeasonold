@@ -16,17 +16,17 @@ $page_title = "Study Abroad 2026 | AdmissionSeason";
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="antialiased bg-[var(--bg-primary)] text-white font-['Inter']">
+<body class="antialiased bg-[var(--bg-primary)] text-slate-900 font-['Inter']">
 <?php include 'includes/navbar.php'; ?>
 
 <div class="min-h-screen pt-16">
     <!-- Hero -->
     <div class="bg-gradient-to-b from-[var(--bg-secondary)] to-[var(--bg-primary)] border-b border-[var(--border)] py-20 relative overflow-hidden text-center">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
-        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 blur-[100px] rounded-full pointer-events-none"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-500/5 blur-[100px] rounded-full pointer-events-none"></div>
         <div class="max-w-3xl mx-auto px-4 sm:px-6 relative z-10">
             <div class="text-5xl mb-4">✈️</div>
-            <h1 class="text-3xl sm:text-5xl font-bold text-white mb-4">Study Abroad</h1>
+            <h1 class="text-3xl sm:text-5xl font-bold text-slate-900 mb-4">Study Abroad</h1>
             <p class="text-[var(--text-secondary)] text-lg mb-8 max-w-xl mx-auto">Explore world-class universities in the USA, UK, Canada, Australia & Germany. Let our AI Counselor help you choose the right one.</p>
             <a href="ai-counselor.php" class="inline-flex items-center gap-2 btn-primary text-base px-8 py-3.5 rounded-xl">
                 <i data-lucide="bot" class="w-5 h-5"></i> Get AI Guidance
@@ -36,7 +36,7 @@ $page_title = "Study Abroad 2026 | AdmissionSeason";
 
     <!-- Countries Grid -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
-        <h2 class="text-2xl font-bold text-white mb-8 text-center">Popular Destinations</h2>
+        <h2 class="text-2xl font-bold text-slate-900 mb-8 text-center">Popular Destinations</h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
             <?php
             $countries = [
@@ -49,7 +49,7 @@ $page_title = "Study Abroad 2026 | AdmissionSeason";
             foreach ($countries as $c): ?>
             <div class="glass rounded-2xl border <?= $c['border'] ?> p-6 text-center hover:scale-105 transition-transform cursor-pointer bg-gradient-to-br <?= $c['color'] ?>">
                 <div class="text-5xl mb-3"><?= $c['flag'] ?></div>
-                <h3 class="font-bold text-white text-lg"><?= $c['name'] ?></h3>
+                <h3 class="font-bold text-slate-900 text-lg"><?= $c['name'] ?></h3>
                 <p class="text-xs text-[var(--text-muted)] mt-1"><?= $c['unis'] ?></p>
             </div>
             <?php endforeach; ?>
@@ -58,7 +58,7 @@ $page_title = "Study Abroad 2026 | AdmissionSeason";
 
     <!-- Steps -->
     <div class="max-w-4xl mx-auto px-4 sm:px-6 pb-16">
-        <h2 class="text-2xl font-bold text-white mb-8 text-center">Your Journey Abroad</h2>
+        <h2 class="text-2xl font-bold text-slate-900 mb-8 text-center">Your Journey Abroad</h2>
         <div class="space-y-4">
             <?php
             $steps = [
@@ -74,7 +74,7 @@ $page_title = "Study Abroad 2026 | AdmissionSeason";
                 </div>
                 <div>
                     <span class="text-xs font-bold text-[var(--text-muted)] tracking-widest uppercase"><?= $s['num'] ?></span>
-                    <h3 class="font-bold text-white mt-1 mb-2"><?= $s['title'] ?></h3>
+                    <h3 class="font-bold text-slate-900 mt-1 mb-2"><?= $s['title'] ?></h3>
                     <p class="text-sm text-[var(--text-secondary)] leading-relaxed"><?= $s['desc'] ?></p>
                 </div>
             </div>

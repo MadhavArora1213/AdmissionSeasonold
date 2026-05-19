@@ -34,7 +34,7 @@ $page_desc = "Discover 30,000+ colleges, get AI-powered personalized recommendat
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="antialiased bg-[var(--bg-primary)] text-white font-['Inter']">
+<body class="antialiased bg-[var(--bg-primary)] text-slate-900 font-['Inter']">
 
 <?php include 'includes/navbar.php'; ?>
 
@@ -42,9 +42,9 @@ $page_desc = "Discover 30,000+ colleges, get AI-powered personalized recommendat
 <div class="relative min-h-screen overflow-hidden grid-pattern">
   <!-- Background Orbs -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-20 left-1/4 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl animate-pulse-slow"></div>
-    <div class="absolute top-40 right-1/4 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s"></div>
-    <div class="absolute bottom-20 left-1/3 w-72 h-72 bg-teal-600/10 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 4s"></div>
+    <div class="absolute top-20 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+    <div class="absolute top-40 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s"></div>
+    <div class="absolute bottom-20 left-1/3 w-72 h-72 bg-teal-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 4s"></div>
   </div>
 
   <!-- Hero Content -->
@@ -65,7 +65,7 @@ $page_desc = "Discover 30,000+ colleges, get AI-powered personalized recommendat
         <span class="text-[var(--text-secondary)]">with AI Guidance</span>
       </h1>
       <p class="text-xl text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed">
-        Explore <span class="text-white font-semibold"><?= number_format(max($college_count, 30000)) ?>+ colleges</span> across India. Compare fees, placements, and reviews. Get AI-powered recommendations tailored just for you.
+        Explore <span class="text-slate-900 font-semibold"><?= number_format(max($college_count, 30000)) ?>+ colleges</span> across India. Compare fees, placements, and reviews. Get AI-powered recommendations tailored just for you.
       </p>
     </div>
 
@@ -80,7 +80,7 @@ $page_desc = "Discover 30,000+ colleges, get AI-powered personalized recommendat
             id="searchInput"
             placeholder="Search colleges, exams, courses..."
             autocomplete="off"
-            class="w-full bg-transparent pl-12 pr-40 py-4 text-base text-white placeholder-[var(--text-muted)] outline-none"
+            class="w-full bg-transparent pl-12 pr-40 py-4 text-base text-slate-900 placeholder-slate-400 outline-none"
           />
           <button type="submit" class="absolute right-2 btn-primary text-sm flex items-center gap-2">
             <i data-lucide="search" class="w-4 h-4"></i> Search
@@ -139,7 +139,7 @@ $page_desc = "Discover 30,000+ colleges, get AI-powered personalized recommendat
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br <?= $stat['color'] ?> flex items-center justify-center mx-auto mb-3">
             <i data-lucide="<?= $stat['icon'] ?>" class="w-5 h-5 text-white"></i>
           </div>
-          <div class="text-2xl font-bold text-white mb-1"><?= $stat['value'] ?></div>
+          <div class="text-2xl font-bold text-slate-900 mb-1"><?= $stat['value'] ?></div>
           <div class="text-xs text-[var(--text-secondary)]"><?= $stat['label'] ?></div>
         </div>
       <?php endforeach; ?>
@@ -149,7 +149,7 @@ $page_desc = "Discover 30,000+ colleges, get AI-powered personalized recommendat
     <div class="mb-20">
       <div class="flex items-center justify-between mb-8">
         <div>
-          <h2 class="text-2xl font-bold text-white">🏆 Top Colleges</h2>
+          <h2 class="text-2xl font-bold text-slate-900">🏆 Top Colleges</h2>
           <p class="text-sm text-[var(--text-secondary)] mt-1">NIRF-ranked institutions with verified data</p>
         </div>
         <a href="colleges.php" class="flex items-center gap-1 text-sm text-indigo-400 hover:text-indigo-300 transition-colors">
@@ -181,7 +181,7 @@ $page_desc = "Discover 30,000+ colleges, get AI-powered personalized recommendat
             </div>
             <div class="mb-4">
               <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-2xl mb-3">🎓</div>
-              <h3 class="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors"><?= $col['name'] ?></h3>
+              <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors"><?= $col['name'] ?></h3>
               <div class="flex items-center gap-1 text-sm text-[var(--text-secondary)] mt-1">
                 <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> <?= $col['location'] ?>
               </div>
@@ -189,7 +189,7 @@ $page_desc = "Discover 30,000+ colleges, get AI-powered personalized recommendat
             <div class="flex items-center gap-3 mb-4">
               <div class="flex items-center gap-1">
                 <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
-                <span class="text-sm font-semibold text-white"><?= $col['rating'] ?></span>
+                <span class="text-sm font-semibold text-slate-900"><?= $col['rating'] ?></span>
                 <span class="text-xs text-[var(--text-muted)]">(<?= number_format($col['reviews']) ?>)</span>
               </div>
               <span class="text-xs text-[var(--text-muted)]">•</span>
@@ -211,7 +211,7 @@ $page_desc = "Discover 30,000+ colleges, get AI-powered personalized recommendat
     <!-- Features -->
     <div class="mb-20">
       <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-white mb-3">
+        <h2 class="text-3xl font-bold text-slate-900 mb-3">
           Why <span class="gradient-text">AdmissionSeason</span>?
         </h2>
         <p class="text-[var(--text-secondary)]">
@@ -233,7 +233,7 @@ $page_desc = "Discover 30,000+ colleges, get AI-powered personalized recommendat
             <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4 <?= $f['color'] ?>">
               <i data-lucide="<?= $f['icon'] ?>" class="w-5 h-5"></i>
             </div>
-            <h3 class="text-base font-bold text-white mb-2"><?= $f['title'] ?></h3>
+            <h3 class="text-base font-bold text-slate-900 mb-2"><?= $f['title'] ?></h3>
             <p class="text-sm text-[var(--text-secondary)] leading-relaxed"><?= $f['desc'] ?></p>
           </div>
         <?php endforeach; ?>
@@ -241,11 +241,11 @@ $page_desc = "Discover 30,000+ colleges, get AI-powered personalized recommendat
     </div>
 
     <!-- CTA Banner -->
-    <div class="relative glass rounded-3xl border border-indigo-500/30 overflow-hidden p-8 sm:p-12 text-center glow-purple">
-      <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10"></div>
+    <div class="relative glass rounded-3xl border border-indigo-500/20 overflow-hidden p-8 sm:p-12 text-center glow-navy">
+      <div class="absolute inset-0 bg-gradient-to-r from-indigo-50/50 to-blue-50/50"></div>
       <div class="relative">
         <div class="text-4xl mb-4">🤖</div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
           Not Sure Which College to Pick?
         </h2>
         <p class="text-[var(--text-secondary)] mb-6 max-w-xl mx-auto">

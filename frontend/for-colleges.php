@@ -16,7 +16,7 @@
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="antialiased bg-[var(--bg-primary)] text-white font-['Inter']">
+<body class="antialiased bg-[var(--bg-primary)] text-slate-900 font-['Inter']">
 <?php include 'includes/navbar.php'; ?>
 
 <div class="min-h-screen pt-16">
@@ -32,7 +32,7 @@
           <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-widest">
             <i data-lucide="building-2" class="w-3.5 h-3.5"></i> For Colleges & Universities
           </div>
-          <h1 class="text-4xl sm:text-5xl font-black text-white leading-tight mb-5">
+          <h1 class="text-4xl sm:text-5xl font-black text-slate-900 leading-tight mb-5">
             Reach <span class="gradient-text">10 Lakh+</span><br>Students Actively<br>Seeking Admission
           </h1>
           <p class="text-[var(--text-secondary)] text-lg leading-relaxed mb-8 max-w-lg">
@@ -57,7 +57,7 @@
             ['val'=>'3X','label'=>'More Inquiries','icon'=>'trending-up','color'=>'text-purple-400','border'=>'border-purple-500/20'],
           ]; foreach ($stats as $s): ?>
           <div class="glass rounded-2xl border <?= $s['border'] ?> p-6 text-center float" style="animation-delay:<?= rand(0,2) ?>s">
-            <div class="text-3xl font-black text-white mb-1"><?= $s['val'] ?></div>
+            <div class="text-3xl font-black text-slate-900 mb-1"><?= $s['val'] ?></div>
             <div class="text-xs text-[var(--text-muted)]"><?= $s['label'] ?></div>
           </div>
           <?php endforeach; ?>
@@ -69,7 +69,7 @@
   <!-- Features -->
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
     <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-white mb-3">Everything You Need to Fill Seats Faster</h2>
+      <h2 class="text-3xl font-bold text-slate-900 mb-3">Everything You Need to Fill Seats Faster</h2>
       <p class="text-[var(--text-secondary)] max-w-xl mx-auto">One platform. Complete admission marketing stack.</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -85,7 +85,7 @@
         <div class="w-12 h-12 rounded-xl <?= $f['bg'] ?> border <?= $f['border'] ?> flex items-center justify-center mb-4">
           <i data-lucide="<?= $f['icon'] ?>" class="w-6 h-6 <?= $f['color'] ?>"></i>
         </div>
-        <h3 class="font-bold text-white mb-2"><?= $f['title'] ?></h3>
+        <h3 class="font-bold text-slate-900 mb-2"><?= $f['title'] ?></h3>
         <p class="text-sm text-[var(--text-secondary)] leading-relaxed"><?= $f['desc'] ?></p>
       </div>
       <?php endforeach; ?>
@@ -96,7 +96,7 @@
   <div id="pricing" class="bg-[var(--bg-secondary)] border-y border-[var(--border)] py-20">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
       <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-white mb-3">Simple, Transparent Pricing</h2>
+        <h2 class="text-3xl font-bold text-slate-900 mb-3">Simple, Transparent Pricing</h2>
         <p class="text-[var(--text-secondary)]">Start free, upgrade when you need more leads.</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -110,8 +110,8 @@
           <div class="absolute top-4 right-4 px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30"><?= $p['badge'] ?></div>
           <?php endif; ?>
           <div class="mb-5">
-            <h3 class="text-lg font-bold text-white mb-1"><?= $p['name'] ?></h3>
-            <div class="text-3xl font-black text-white"><?= $p['price'] ?><span class="text-sm font-normal text-[var(--text-muted)]"><?= $p['period'] ?></span></div>
+            <h3 class="text-lg font-bold text-slate-900 mb-1"><?= $p['name'] ?></h3>
+            <div class="text-3xl font-black text-slate-900"><?= $p['price'] ?><span class="text-sm font-normal text-[var(--text-muted)]"><?= $p['period'] ?></span></div>
             <p class="text-xs text-[var(--text-secondary)] mt-2"><?= $p['desc'] ?></p>
           </div>
           <ul class="space-y-2.5 mb-7 flex-1">
@@ -133,7 +133,7 @@
   <!-- Contact / Lead Form -->
   <div id="contact" class="max-w-2xl mx-auto px-4 sm:px-6 py-20">
     <div class="text-center mb-10">
-      <h2 class="text-3xl font-bold text-white mb-3">Get Your College Listed Today</h2>
+      <h2 class="text-3xl font-bold text-slate-900 mb-3">Get Your College Listed Today</h2>
       <p class="text-[var(--text-secondary)]">Fill out the form and our team will reach out within 24 hours.</p>
     </div>
     <div class="glass rounded-3xl border border-[var(--border)] p-8">
@@ -157,7 +157,7 @@
       <?php if ($formSuccess): ?>
       <div class="text-center py-8">
         <div class="text-5xl mb-4">🎉</div>
-        <h3 class="text-xl font-bold text-white mb-2">Request Received!</h3>
+        <h3 class="text-xl font-bold text-slate-900 mb-2">Request Received!</h3>
         <p class="text-[var(--text-secondary)] text-sm">Our team will contact you within 24 hours. Check your email for confirmation.</p>
       </div>
       <?php else: ?>
@@ -169,28 +169,28 @@
           <div>
             <label class="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-1.5 block">College Name *</label>
             <input type="text" name="college_name" required placeholder="e.g. ABC Institute of Technology"
-              class="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white placeholder-[var(--text-muted)] outline-none focus:border-indigo-500/60 transition-all">
+              class="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-indigo-500/60 transition-all">
           </div>
           <div>
             <label class="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-1.5 block">Contact Person *</label>
             <input type="text" name="contact_name" required placeholder="Your full name"
-              class="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white placeholder-[var(--text-muted)] outline-none focus:border-indigo-500/60 transition-all">
+              class="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-indigo-500/60 transition-all">
           </div>
           <div>
             <label class="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-1.5 block">Email *</label>
             <input type="email" name="email" required placeholder="admissions@college.edu"
-              class="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white placeholder-[var(--text-muted)] outline-none focus:border-indigo-500/60 transition-all">
+              class="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-indigo-500/60 transition-all">
           </div>
           <div>
             <label class="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-1.5 block">Phone *</label>
             <input type="tel" name="phone" required placeholder="+91 98765 43210"
-              class="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white placeholder-[var(--text-muted)] outline-none focus:border-indigo-500/60 transition-all">
+              class="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-indigo-500/60 transition-all">
           </div>
         </div>
         <div>
           <label class="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-1.5 block">College Type</label>
           <div class="relative">
-            <select name="type" class="w-full appearance-none px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white outline-none focus:border-indigo-500/60 cursor-pointer">
+            <select name="type" class="w-full appearance-none px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 outline-none focus:border-indigo-500/60 cursor-pointer">
               <option>Engineering</option><option>Medical</option><option>Management</option>
               <option>Arts & Science</option><option>Law</option><option>Design</option>
               <option>Pharmacy</option><option>University (Multi-stream)</option>
@@ -201,7 +201,7 @@
         <div>
           <label class="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-1.5 block">Message (Optional)</label>
           <textarea name="message" rows="3" placeholder="Tell us about your college, current student intake, and what you're looking for..."
-            class="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white placeholder-[var(--text-muted)] outline-none focus:border-indigo-500/60 transition-all resize-none"></textarea>
+            class="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-indigo-500/60 transition-all resize-none"></textarea>
         </div>
         <button type="submit" class="w-full btn-primary py-4 rounded-xl font-bold text-base flex items-center justify-center gap-2">
           <i data-lucide="send" class="w-5 h-5"></i> Submit — Get Listed Free

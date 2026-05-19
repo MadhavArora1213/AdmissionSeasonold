@@ -32,20 +32,20 @@ $states = $pdo->query("SELECT DISTINCT state FROM colleges ORDER BY state")->fet
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="antialiased bg-[var(--bg-primary)] text-white font-['Inter']">
+<body class="antialiased bg-[var(--bg-primary)] text-slate-900 font-['Inter']">
 <?php include 'includes/navbar.php'; ?>
 
 <div class="min-h-screen pt-20 max-w-4xl mx-auto px-4 sm:px-6 py-10">
-    <h1 class="text-2xl sm:text-3xl font-bold text-white mb-8">Search Colleges</h1>
+    <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-8">Search Colleges</h1>
 
     <form method="GET" action="search.php" class="flex flex-col sm:flex-row gap-3 mb-8">
         <div class="relative flex-1">
             <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]"></i>
             <input type="text" name="q" value="<?= htmlspecialchars($q) ?>" placeholder="College name, city or state..."
                 autofocus
-                class="w-full pl-11 pr-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white placeholder-[var(--text-muted)] outline-none focus:border-indigo-500/60 transition-all">
+                class="w-full pl-11 pr-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-indigo-500/60 transition-all">
         </div>
-        <select name="type" onchange="this.form.submit()" class="sm:w-40 appearance-none px-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white outline-none cursor-pointer">
+        <select name="type" onchange="this.form.submit()" class="sm:w-40 appearance-none px-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 outline-none cursor-pointer">
             <option value="">All Types</option>
             <option value="GOVERNMENT" <?= $type==='GOVERNMENT'?'selected':'' ?>>Government</option>
             <option value="PRIVATE"    <?= $type==='PRIVATE'?'selected':'' ?>>Private</option>
@@ -59,14 +59,14 @@ $states = $pdo->query("SELECT DISTINCT state FROM colleges ORDER BY state")->fet
         <?php if ($q || $state || $type): ?>
             <div class="flex items-center justify-between">
                 <p class="text-sm text-[var(--text-muted)]">
-                    Found <span class="text-white font-bold"><?= count($results) ?></span> 
+                    Found <span class="text-slate-900 font-bold"><?= count($results) ?></span> 
                     <?= count($results) === 1 ? 'college' : 'colleges' ?> 
-                    <?php if ($q): ?> for "<span class="text-white"><?= htmlspecialchars($q) ?></span>"<?php endif; ?>
+                    <?php if ($q): ?> for "<span class="text-slate-900"><?= htmlspecialchars($q) ?></span>"<?php endif; ?>
                 </p>
                 <a href="search.php" class="text-xs text-indigo-400 hover:underline">Clear all</a>
             </div>
         <?php else: ?>
-            <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+            <h2 class="text-lg font-semibold text-slate-900 flex items-center gap-2">
                 <i data-lucide="award" class="w-5 h-5 text-amber-400"></i>
                 Recommended Colleges
             </h2>
@@ -77,7 +77,7 @@ $states = $pdo->query("SELECT DISTINCT state FROM colleges ORDER BY state")->fet
                 <div class="w-16 h-16 mx-auto bg-[var(--bg-secondary)] rounded-full flex items-center justify-center mb-4 border border-[var(--border)]">
                     <i data-lucide="search-x" class="w-8 h-8 text-[var(--text-muted)]"></i>
                 </div>
-                <h3 class="text-lg font-bold text-white mb-2">No colleges found</h3>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">No colleges found</h3>
                 <p class="text-sm text-[var(--text-secondary)] mb-6 max-w-sm mx-auto">We couldn't find any colleges matching your criteria. Try adjusting your filters or search terms.</p>
                 <a href="search.php" class="btn-primary inline-flex">View All Colleges</a>
             </div>
@@ -94,7 +94,7 @@ $states = $pdo->query("SELECT DISTINCT state FROM colleges ORDER BY state")->fet
                     
                     <div class="flex-1 min-w-0 relative z-10">
                         <div class="flex items-center gap-2 mb-1">
-                            <h3 class="font-bold text-white text-lg group-hover:text-indigo-400 transition-colors truncate">
+                            <h3 class="font-bold text-slate-900 text-lg group-hover:text-indigo-600 transition-colors truncate">
                                 <?= htmlspecialchars($c['name']) ?>
                             </h3>
                             <?php if ($c['is_verified']): ?>

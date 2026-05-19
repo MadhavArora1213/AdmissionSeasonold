@@ -56,7 +56,7 @@ $page_title = "Entrance Exams in India 2026 | AdmissionSeason";
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="antialiased bg-[var(--bg-primary)] text-white font-['Inter'] selection:bg-indigo-500/30">
+<body class="antialiased bg-[var(--bg-primary)] text-slate-900 font-['Inter'] selection:bg-indigo-500/30">
 
 <?php include 'includes/navbar.php'; ?>
 
@@ -68,7 +68,7 @@ $page_title = "Entrance Exams in India 2026 | AdmissionSeason";
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none"></div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 relative z-10">
-      <h1 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3">
+      <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight mb-3">
         Entrance Exams Hub
       </h1>
       <p class="text-[var(--text-secondary)] text-sm sm:text-base mb-8 max-w-2xl">
@@ -84,7 +84,7 @@ $page_title = "Entrance Exams in India 2026 | AdmissionSeason";
             name="q"
             value="<?= htmlspecialchars($search) ?>"
             placeholder="Search exams (e.g. JEE Main, CAT)..."
-            class="w-full pl-11 pr-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white placeholder-[var(--text-muted)] outline-none focus:border-indigo-500/60 transition-all shadow-inner"
+            class="w-full pl-11 pr-4 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-indigo-500/60 transition-all shadow-inner"
           />
         </div>
         
@@ -93,7 +93,7 @@ $page_title = "Entrance Exams in India 2026 | AdmissionSeason";
           <select
             name="stream"
             onchange="this.form.submit()"
-            class="w-full appearance-none pl-4 pr-10 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white outline-none focus:border-indigo-500/60 cursor-pointer shadow-inner"
+            class="w-full appearance-none pl-4 pr-10 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 outline-none focus:border-indigo-500/60 cursor-pointer shadow-inner"
           >
             <option value="">All Streams</option>
             <?php foreach ($streams as $s): if(!$s) continue; ?>
@@ -108,7 +108,7 @@ $page_title = "Entrance Exams in India 2026 | AdmissionSeason";
           <select
             name="level"
             onchange="this.form.submit()"
-            class="w-full appearance-none pl-4 pr-10 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-white outline-none focus:border-indigo-500/60 cursor-pointer shadow-inner"
+            class="w-full appearance-none pl-4 pr-10 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-sm text-slate-900 outline-none focus:border-indigo-500/60 cursor-pointer shadow-inner"
           >
             <option value="">All Levels</option>
             <option value="NATIONAL" <?= strcasecmp($level, 'NATIONAL')===0 ? 'selected' : '' ?>>National Level</option>
@@ -155,7 +155,7 @@ $page_title = "Entrance Exams in India 2026 | AdmissionSeason";
         <div class="w-16 h-16 mx-auto bg-[var(--bg-secondary)] rounded-full flex items-center justify-center mb-4 border border-[var(--border)]">
           <i data-lucide="file-search" class="w-8 h-8 text-[var(--text-muted)]"></i>
         </div>
-        <h3 class="text-lg font-bold text-white mb-2">No exams found</h3>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">No exams found</h3>
         <p class="text-sm text-[var(--text-secondary)] mb-6 max-w-sm mx-auto">We couldn't find any exams matching your current filters. Try adjusting your search.</p>
         <a href="?" class="btn-primary inline-flex">Clear All Filters</a>
       </div>
@@ -178,7 +178,7 @@ $page_title = "Entrance Exams in India 2026 | AdmissionSeason";
                 <?php endif; ?>
               </div>
 
-              <h2 class="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors mb-1">
+              <h2 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors mb-1">
                 <?= htmlspecialchars($e['name']) ?>
               </h2>
               <p class="text-xs text-[var(--text-secondary)] line-clamp-1 mb-4" title="<?= htmlspecialchars($e['full_name']) ?>">
@@ -212,7 +212,7 @@ $page_title = "Entrance Exams in India 2026 | AdmissionSeason";
             <div class="relative z-10 pt-5 mt-5 border-t border-[var(--border)] flex items-center justify-between">
               <div class="text-xs text-[var(--text-muted)]">
                 <?php if ($e['total_marks']): ?>
-                  Max Marks: <span class="text-white font-medium"><?= $e['total_marks'] ?></span>
+                  Max Marks: <span class="text-slate-900 font-medium"><?= $e['total_marks'] ?></span>
                 <?php endif; ?>
               </div>
               <a href="exam.php?slug=<?= urlencode($e['slug']) ?>" class="text-sm font-semibold text-indigo-400 group-hover:text-indigo-300 flex items-center gap-1 transition-colors">

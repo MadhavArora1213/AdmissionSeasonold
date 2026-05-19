@@ -43,7 +43,7 @@ if (empty($colleges)) {
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="antialiased bg-[var(--bg-primary)] text-white font-['Inter']">
+<body class="antialiased bg-[var(--bg-primary)] text-slate-900 font-['Inter']">
 <?php include 'includes/navbar.php'; ?>
 
 <div class="min-h-screen pt-16">
@@ -57,7 +57,7 @@ if (empty($colleges)) {
                 </div>
                 <span class="text-xs font-bold uppercase tracking-widest text-amber-400">NIRF Rankings 2026</span>
             </div>
-            <h1 class="text-3xl sm:text-4xl font-bold text-white mb-3">Top College Rankings in India</h1>
+            <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">Top College Rankings in India</h1>
             <p class="text-[var(--text-secondary)] max-w-2xl">Comprehensive rankings based on NIRF, NAAC, QS, and AdmissionSeason's own quality score across 30,000+ institutions.</p>
         </div>
     </div>
@@ -66,13 +66,13 @@ if (empty($colleges)) {
         <?php if (empty($colleges)): ?>
             <div class="text-center py-20 border border-dashed border-[var(--border)] rounded-3xl">
                 <i data-lucide="bar-chart-3" class="w-12 h-12 mx-auto mb-4 text-[var(--text-muted)] opacity-30"></i>
-                <h3 class="text-lg font-bold text-white mb-2">Rankings Coming Soon</h3>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Rankings Coming Soon</h3>
                 <p class="text-sm text-[var(--text-secondary)]">We're compiling verified NIRF data. Check back soon!</p>
             </div>
         <?php else: ?>
             <div class="glass rounded-2xl border border-[var(--border)] overflow-hidden">
                 <div class="px-6 py-4 border-b border-[var(--border)] flex items-center justify-between">
-                    <h2 class="font-bold text-white">Top <?= count($colleges) ?> Colleges by NIRF Rank</h2>
+                    <h2 class="font-bold text-slate-900">Top <?= count($colleges) ?> Colleges by NIRF Rank</h2>
                     <span class="text-xs text-[var(--text-muted)]">Updated 2026</span>
                 </div>
                 <div class="divide-y divide-[var(--border)]">
@@ -82,7 +82,7 @@ if (empty($colleges)) {
                         <div class="w-12 text-center flex-shrink-0">
                             <?php if ($i < 3): ?>
                                 <div class="w-9 h-9 mx-auto rounded-full flex items-center justify-center font-bold text-sm shadow-md
-                                    <?= $i===0 ? 'bg-amber-500 text-white shadow-amber-500/30' : ($i===1 ? 'bg-slate-400 text-white shadow-slate-400/30' : 'bg-orange-600 text-white shadow-orange-600/30') ?>">
+                                    <?= $i===0 ? 'bg-amber-500 text-white shadow-amber-500/30' : ($i===1 ? 'bg-indigo-600 text-white shadow-indigo-600/30' : 'bg-slate-500 text-white shadow-slate-500/30') ?>">
                                     #<?= $c['nirf_rank'] ?>
                                 </div>
                             <?php else: ?>
@@ -92,7 +92,7 @@ if (empty($colleges)) {
 
                         <!-- College -->
                         <div class="flex-1 min-w-0">
-                            <div class="font-semibold text-white group-hover:text-indigo-400 transition-colors truncate"><?= htmlspecialchars($c['name']) ?></div>
+                            <div class="font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors truncate"><?= htmlspecialchars($c['name']) ?></div>
                             <div class="text-xs text-[var(--text-muted)] flex items-center gap-2 mt-1">
                                 <i data-lucide="map-pin" class="w-3 h-3"></i>
                                 <?= htmlspecialchars($c['city'] . ', ' . $c['state']) ?>

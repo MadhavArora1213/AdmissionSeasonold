@@ -36,7 +36,7 @@ $navLinks = [
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
       <a href="index.php" class="flex items-center gap-2 group">
-        <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 group-hover:scale-110 transition-transform">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#0B2447] to-[#19376D] flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
           <i data-lucide="graduation-cap" class="w-4 h-4 text-white"></i>
         </div>
         <span class="text-lg font-bold gradient-text hidden sm:block">
@@ -48,7 +48,7 @@ $navLinks = [
       <div class="hidden lg:flex items-center gap-1">
         <?php foreach ($navLinks as $link): ?>
           <div class="relative group">
-            <a href="<?= $link['href'] ?>" class="flex items-center gap-1 px-3 py-2 text-sm text-[var(--text-secondary)] hover:text-white rounded-lg hover:bg-white/5 transition-all duration-200">
+            <a href="<?= $link['href'] ?>" class="flex items-center gap-1 px-3 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] rounded-lg hover:bg-[var(--accent)]/5 transition-all duration-200">
               <?= $link['label'] ?>
               <?php if (isset($link['submenu'])): ?>
                 <i data-lucide="chevron-down" class="w-3 h-3"></i>
@@ -58,7 +58,7 @@ $navLinks = [
             <?php if (isset($link['submenu'])): ?>
               <div class="absolute top-full left-0 mt-2 w-52 glass rounded-xl shadow-xl border border-[var(--border)] overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                 <?php foreach ($link['submenu'] as $item): ?>
-                  <a href="<?= $item['href'] ?>" class="block px-4 py-2.5 text-sm text-[var(--text-secondary)] hover:text-white hover:bg-indigo-500/10 transition-all">
+                  <a href="<?= $item['href'] ?>" class="block px-4 py-2.5 text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-all">
                     <?= $item['label'] ?>
                   </a>
                 <?php endforeach; ?>
@@ -71,7 +71,7 @@ $navLinks = [
       <!-- Right Actions -->
       <div class="flex items-center gap-2">
         <!-- Search -->
-        <a href="search.php" class="hidden md:flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-secondary)] hover:text-white glass rounded-xl border border-[var(--border)] transition-all hover:border-indigo-500/50 group">
+        <a href="search.php" class="hidden md:flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] glass rounded-xl border border-[var(--border)] transition-all hover:border-[var(--accent)]/50 group">
           <i data-lucide="search" class="w-4 h-4"></i>
           <span class="text-xs">Search colleges...</span>
           <span class="ml-2 text-xs text-[var(--text-muted)] glass px-1.5 py-0.5 rounded border border-[var(--border)]">
@@ -80,18 +80,18 @@ $navLinks = [
         </a>
 
         <!-- AI Counselor -->
-        <a href="ai-counselor.php" class="hidden sm:flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5">
+        <a href="ai-counselor.php" class="hidden sm:flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white rounded-xl bg-gradient-to-r from-[#0B2447] to-[#19376D] hover:opacity-90 transition-all shadow-lg shadow-indigo-500/10 hover:-translate-y-0.5">
           <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
           AI Counselor
         </a>
 
         <!-- Auth -->
-        <a href="login.php" class="px-3 py-2 text-sm text-[var(--text-secondary)] hover:text-white transition-all">
+        <a href="login.php" class="px-3 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] transition-all">
           Login
         </a>
 
         <!-- Mobile Menu Toggle -->
-        <button id="mobileMenuBtn" class="lg:hidden p-2 text-[var(--text-secondary)] hover:text-white hover:bg-white/5 rounded-lg transition-all active:scale-95">
+        <button id="mobileMenuBtn" class="lg:hidden p-2 text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--accent)]/5 rounded-lg transition-all active:scale-95">
           <i data-lucide="menu" class="w-6 h-6" id="menuIconOpen"></i>
           <i data-lucide="x" class="w-6 h-6 hidden" id="menuIconClose"></i>
         </button>
@@ -107,7 +107,7 @@ $navLinks = [
     <div class="p-6 space-y-6">
       <div class="flex items-center justify-between">
         <span class="text-xl font-bold gradient-text">Menu</span>
-        <button id="closeMenuBtn" class="p-2 text-[var(--text-secondary)] hover:text-white">
+        <button id="closeMenuBtn" class="p-2 text-[var(--text-secondary)] hover:text-[var(--accent)]">
           <i data-lucide="x" class="w-6 h-6"></i>
         </button>
       </div>
@@ -115,7 +115,7 @@ $navLinks = [
       <div class="space-y-2">
         <?php foreach ($navLinks as $link): ?>
           <div class="space-y-1">
-            <a href="<?= $link['href'] ?>" class="flex items-center justify-between p-3 text-lg font-medium text-white hover:bg-white/5 rounded-xl transition-all">
+            <a href="<?= $link['href'] ?>" class="flex items-center justify-between p-3 text-lg font-medium text-[var(--text-primary)] hover:bg-[var(--accent)]/5 rounded-xl transition-all">
               <?= $link['label'] ?>
               <?php if (isset($link['submenu'])): ?>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-[var(--text-muted)]"></i>
@@ -124,7 +124,7 @@ $navLinks = [
             <?php if (isset($link['submenu'])): ?>
               <div class="pl-4 space-y-1">
                 <?php foreach ($link['submenu'] as $item): ?>
-                  <a href="<?= $item['href'] ?>" class="block p-2 text-sm text-[var(--text-secondary)] hover:text-white transition-all italic border-l border-[var(--border)] ml-2 pl-4">
+                  <a href="<?= $item['href'] ?>" class="block p-2 text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] transition-all italic border-l border-[var(--border)] ml-2 pl-4">
                     <?= $item['label'] ?>
                   </a>
                 <?php endforeach; ?>
@@ -135,15 +135,15 @@ $navLinks = [
       </div>
 
       <div class="pt-6 border-t border-[var(--border)] space-y-4">
-        <a href="ai-counselor.php" class="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-indigo-500/25">
+        <a href="ai-counselor.php" class="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-gradient-to-r from-[#0B2447] to-[#19376D] text-white font-bold shadow-lg shadow-indigo-500/10">
           <i data-lucide="sparkles" class="w-5 h-5"></i>
           AI Counselor
         </a>
         <div class="grid grid-cols-2 gap-3">
-          <a href="login.php" class="flex items-center justify-center py-3 rounded-xl border border-[var(--border)] text-white text-sm font-medium hover:bg-white/5 transition-all">
+          <a href="login.php" class="flex items-center justify-center py-3 rounded-xl border border-[var(--border)] text-[var(--text-primary)] text-sm font-medium hover:bg-[var(--accent)]/5 transition-all">
             Login
           </a>
-          <a href="signup.php" class="flex items-center justify-center py-3 rounded-xl bg-white/5 text-white text-sm font-medium hover:bg-white/10 transition-all">
+          <a href="signup.php" class="flex items-center justify-center py-3 rounded-xl bg-[var(--accent)]/5 text-[var(--text-primary)] text-sm font-medium hover:bg-[var(--accent)]/10 transition-all">
             Register
           </a>
         </div>

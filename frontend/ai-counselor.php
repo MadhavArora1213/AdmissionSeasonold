@@ -151,7 +151,7 @@ if ($isAjax) {
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="antialiased bg-[var(--bg-primary)] text-white font-['Inter'] min-h-screen flex flex-col">
+<body class="antialiased bg-[var(--bg-primary)] text-slate-900 font-['Inter'] min-h-screen flex flex-col">
 
 <?php include 'includes/navbar.php'; ?>
 
@@ -168,7 +168,7 @@ if ($isAjax) {
                     <div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-[var(--bg-card)] rounded-full"></div>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-white leading-tight">AI Counselor</h1>
+                    <h1 class="text-lg font-bold text-slate-900 leading-tight">AI Counselor</h1>
                     <p class="text-xs text-indigo-400 font-medium">Online • Llama 3.1 Powered</p>
                 </div>
             </div>
@@ -211,7 +211,7 @@ if ($isAjax) {
                         id="messageInput" 
                         rows="1"
                         placeholder="Type your message... (e.g. 'I want to do engineering in Delhi')" 
-                        class="w-full bg-transparent text-sm text-white placeholder-[var(--text-muted)] p-4 pr-12 resize-none outline-none max-h-32 min-h-[56px] overflow-y-auto"
+                        class="w-full bg-transparent text-sm text-slate-900 placeholder-slate-400 p-4 pr-12 resize-none outline-none max-h-32 min-h-[56px] overflow-y-auto"
                         onkeydown="if(event.keyCode===13 && !event.shiftKey) { event.preventDefault(); submitChat(); }"
                     ></textarea>
                     <button type="button" class="absolute right-3 bottom-3 p-1.5 text-[var(--text-muted)] hover:text-indigo-400 transition-colors">
@@ -304,7 +304,7 @@ if ($isAjax) {
               colleges.forEach(col => {
                   collegesHtml += `
                   <a href="college.php?id=${col.id}" class="block p-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] hover:border-indigo-500/50 transition-colors group">
-                      <div class="font-semibold text-white group-hover:text-indigo-400 transition-colors text-sm">${escapeHtml(col.name)}</div>
+                      <div class="font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors text-sm">${escapeHtml(col.name)}</div>
                       <div class="text-xs text-[var(--text-muted)] mt-1 flex items-center gap-1">
                           <i data-lucide="map-pin" class="w-3 h-3"></i> ${escapeHtml(col.city)} • ${escapeHtml(col.type)}
                       </div>

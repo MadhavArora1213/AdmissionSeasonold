@@ -39,7 +39,7 @@ $footerLinks = [
       <!-- Brand -->
       <div class="col-span-2">
         <a href="index.php" class="flex items-center gap-2 mb-4">
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#0B2447] to-[#19376D] flex items-center justify-center">
             <i data-lucide="graduation-cap" class="w-4 h-4 text-white"></i>
           </div>
           <span class="text-lg font-bold gradient-text">AdmissionSeason</span>
@@ -57,7 +57,7 @@ $footerLinks = [
           ];
           foreach ($socials as $soc):
           ?>
-            <a href="#" aria-label="<?= $soc['label'] ?>" class="w-8 h-8 glass rounded-lg flex items-center justify-center border border-[var(--border)] text-[var(--text-muted)] hover:text-white hover:border-indigo-500/50 transition-all hover:-translate-y-0.5">
+            <a href="#" aria-label="<?= $soc['label'] ?>" class="w-8 h-8 glass rounded-lg flex items-center justify-center border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--accent)] hover:border-[var(--accent)]/50 transition-all hover:-translate-y-0.5">
               <?= $soc['icon'] ?>
             </a>
           <?php endforeach; ?>
@@ -67,11 +67,11 @@ $footerLinks = [
       <!-- Links -->
       <?php foreach ($footerLinks as $category => $links): ?>
         <div>
-          <h3 class="text-sm font-semibold text-white mb-4"><?= $category ?></h3>
+          <h3 class="text-sm font-semibold text-[var(--text-primary)] mb-4"><?= $category ?></h3>
           <ul class="space-y-2.5">
             <?php foreach ($links as $link): ?>
               <li>
-                <a href="<?= $link['href'] ?>" class="text-sm text-[var(--text-secondary)] hover:text-indigo-400 transition-colors">
+                <a href="<?= $link['href'] ?>" class="text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">
                   <?= $link['label'] ?>
                 </a>
               </li>
@@ -85,13 +85,13 @@ $footerLinks = [
     <div class="flex flex-wrap gap-6 py-6 border-y border-[var(--border)] mb-8 text-sm text-[var(--text-secondary)]">
       <div class="flex items-center gap-2">
         <i data-lucide="mail" class="w-4 h-4 text-indigo-400"></i>
-        <a href="mailto:hello@admissionseason.in" class="hover:text-white transition-colors">
+        <a href="mailto:hello@admissionseason.in" class="hover:text-[var(--accent)] transition-colors">
           hello@admissionseason.in
         </a>
       </div>
       <div class="flex items-center gap-2">
         <i data-lucide="phone" class="w-4 h-4 text-teal-400"></i>
-        <a href="tel:+911800000000" class="hover:text-white transition-colors">
+        <a href="tel:+911800000000" class="hover:text-[var(--accent)] transition-colors">
           1800-000-0000 (Toll Free)
         </a>
       </div>
@@ -105,9 +105,9 @@ $footerLinks = [
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-muted)]">
       <p>© <?= date('Y') ?> AdmissionSeason. All rights reserved.</p>
       <div class="flex gap-4">
-        <a href="privacy.php" class="hover:text-white transition-colors">Privacy</a>
-        <a href="terms.php" class="hover:text-white transition-colors">Terms</a>
-        <a href="sitemap.xml" class="hover:text-white transition-colors">Sitemap</a>
+        <a href="privacy.php" class="hover:text-[var(--accent)] transition-colors">Privacy</a>
+        <a href="terms.php" class="hover:text-[var(--accent)] transition-colors">Terms</a>
+        <a href="sitemap.xml" class="hover:text-[var(--accent)] transition-colors">Sitemap</a>
       </div>
       <p class="flex items-center gap-1">
         Made with ❤️ for Indian students
